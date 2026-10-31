@@ -34,6 +34,9 @@ const BLUE = FACTIONS[1];
  * tinctures of house `house`, scaled by `k` (a little larger than in the battle, to be read);
  * `nimbus` for the unit that plays.
  */
+/** px a finger must slide sideways to turn a page of the help */
+const SWIPE_PX = 50;
+
 function figure(
   x: number,
   y: number,
@@ -244,6 +247,24 @@ function stripOf(markup: string): HTMLElement {
  */
 export function renderTutorial(panel: HTMLElement, close: () => void): void {
   const count = DRAWINGS.length;
+  /** Where a swipe leads, left (to the next page) or right (to the previous one). */
+  let swipe: { next: Page | null; prev: Page | null } = { next: null, prev: null };
+  // A finger slid sideways turns the page; up and down still scroll it (2026-11-01).
+  panel.style.touchAction = 'pan-y';
+  let from: { x: number; y: number; id: number } | null = null;
+  panel.addEventListener('pointerdown', (e) => {
+    from = e.pointerType === 'mouse' ? null : { x: e.clientX, y: e.clientY, id: e.pointerId };
+  });
+  panel.addEventListener('pointerup', (e) => {
+    if (!from || from.id !== e.pointerId) return;
+    const dx = e.clientX - from.x;
+    const dy = e.clientY - from.y;
+    from = null;
+    if (Math.abs(dx) < SWIPE_PX || Math.abs(dx) < 1.5 * Math.abs(dy)) return;
+    const to = dx < 0 ? swipe.next : swipe.prev;
+    if (to) go(to);
+  });
+  panel.addEventListener('pointercancel', () => (from = null));
   const go = (page: Page): void => {
     const closeBtn = setIcon(button('', 'close'), 'close');
     closeBtn.addEventListener('click', close);
@@ -268,6 +289,10 @@ export function renderTutorial(panel: HTMLElement, close: () => void): void {
       pic.innerHTML = DRAWINGS[n - 1] ?? '';
       const prev = step(t('tuto.prev'), 'prev', n > 1 ? { kind: 'basic', n: n - 1 } : null);
       let next: HTMLButtonElement;
+      swipe = {
+        prev: n > 1 ? { kind: 'basic', n: n - 1 } : null,
+        next: n < count ? { kind: 'basic', n: n + 1 } : { kind: 'index' },
+      };
       if (n === count) {
         next = button(t('tuto.done'));
         next.addEventListener('click', close);
@@ -299,6 +324,7 @@ export function renderTutorial(panel: HTMLElement, close: () => void): void {
       const body = el('div', 'tuto-body plain');
       body.append(el('p', '', t('tuto.adv.intro')), list);
       nav.append(step(t('tuto.adv.back'), 'prev', { kind: 'basic', n: 1 }));
+      swipe = { prev: { kind: 'basic', n: count }, next: { kind: 'topic', n: 1 } };
       panel.replaceChildren(closeBtn, el('h2', '', t('tuto.adv.title')), body, nav);
       return;
     }
@@ -312,6 +338,10 @@ export function renderTutorial(panel: HTMLElement, close: () => void): void {
       n < ADVANCED_TOPICS
         ? step(t('tuto.next'), 'next', { kind: 'topic', n: n + 1 })
         : step(t('tuto.adv.index'), 'next', { kind: 'index' });
+    swipe = {
+      prev: n > 1 ? { kind: 'topic', n: n - 1 } : { kind: 'index' },
+      next: n < ADVANCED_TOPICS ? { kind: 'topic', n: n + 1 } : null,
+    };
     const middle = el('div', 'tuto-mid');
     const index = button(t('tuto.adv.index'), 'tuto-more');
     index.addEventListener('click', () => go({ kind: 'index' }));

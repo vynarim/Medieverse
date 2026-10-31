@@ -332,7 +332,7 @@ En bas à gauche, le **pad** :
 - **le pavé** : au centre, les deux triangles (maintenir pour marcher) entourent la flèche vers le haut, le saut haut ; aux deux bouts, les arcs de saut sont les sauts longs vers la gauche et vers la droite. Au pied d'une échelle apparaît la flèche vers le bas, et devant un mur ou un à-pic, la **corde** (Grimper ou Descendre), toujours au bout du pavé ;
 - **Viser** (la flèche qui tourne) : maintenir pour faire tourner la visée tout autour du combattant.
 
-Les boutons portent des icônes dessinées. Sur PC et tablette, leur nom est écrit à côté ; sur téléphone tenu en hauteur, l'icône est seule. Sur un écran tactile, **un appui long sur un bouton** affiche ce qu'il fait.
+Les boutons portent des icônes dessinées. Sur PC et tablette, leur nom est écrit à côté ; sur un petit écran, l'icône peut être seule. Sur un écran tactile, **un appui long sur un bouton** affiche ce qu'il fait.
 
 En bas à droite, les armes :
 
@@ -369,7 +369,8 @@ Le bouton **⚙ Réglages** ouvre toutes les valeurs du jeu en cours de réglage
 - **Viser à la jauge** : Viser maintenu (ou la pointe rouge glissée) pour l'angle, le bouton Tirer maintenu pour la puissance.
 - **Caméra** : un doigt glissé hors du combattant pour se déplacer, deux doigts pour zoomer (autour du point entre les doigts) ou faire glisser la vue, double tap pour recentrer.
 - **Visée** : la pointe rouge de la flèche se prend au doigt, même un peu à côté, et se fait tourner directement.
-- **Tablette** : elle se joue en paysage ; tenue en portrait, le jeu demande de la tourner.
+- **Tablette et téléphone** : ils se jouent en paysage ; tenus en portrait, le jeu demande de les tourner. Deux doigts écartés rapprochent la vue autant que sur un grand écran, de quoi viser de près.
+- **Aide** : un doigt glissé vers la gauche ou la droite tourne les pages.
 - **Frappes du ciel** {{st:prevu}} : touchez la cible, puis Confirmer.
 
 Le choix du mode de visée dans les options est prévu {{st:prevu}}. Le jeu n'a pas encore été essayé sur une vraie tablette.

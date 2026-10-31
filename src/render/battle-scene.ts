@@ -182,7 +182,10 @@ const MAX_FRAME_MS = 250;
 const REF_HEIGHT = 1080;
 /** Default zoom at the reference height */
 const ZOOM_DEFAULT = 0.75;
-/** Closest zoom at the reference height */
+/**
+ * Closest zoom at the reference height, and on any shorter screen too: a phone held sideways is
+ * about 400 px high, and its units would stay tiny if the closest zoom shrank with it (2026-11-01).
+ */
 const ZOOM_MAX = 1.6;
 /** screen px per second of edge scrolling */
 const EDGE_SCROLL_SPEED = 900;
@@ -707,7 +710,7 @@ export class BattleScene extends Phaser.Scene {
   /** Zooms, keeping the world point under screen point `at` (fingers, mouse) where it is. */
   private zoomTo(zoom: number, at: { x: number; y: number } | null = null): void {
     const cam = this.cameras.main;
-    const max = Math.max(this.minZoom(), (ZOOM_MAX * this.scale.height) / REF_HEIGHT);
+    const max = Math.max(this.minZoom(), ZOOM_MAX * Math.max(1, this.scale.height / REF_HEIGHT));
     const before = cam.zoom;
     const after = Phaser.Math.Clamp(zoom, this.minZoom(), max);
     cam.setZoom(after);
