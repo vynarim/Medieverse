@@ -118,6 +118,11 @@ export interface TeleportDef {
 export interface LadderDef {
   /** px: its height at most, from the ground (a ceiling stops it lower) */
   readonly height: number;
+  /**
+   * px: its height at most against a wall, up to the wall's top: a tower of the Siège scheme is
+   * 440 px high (2026-10-31, playtest). Absent from older logs: `height`.
+   */
+  readonly wallHeight?: number;
 }
 
 /** Bannière (GDD §4.4): held up as the unit falls, it slows the fall and the wind carries it. */
@@ -588,14 +593,15 @@ export const WEAPONS: readonly WeaponDef[] = [
     rope: { length: 400, minLength: 30, climbSpeed: 3 * 256, pump: 12 },
   },
   {
-    // Échelle (2026-10-25): a ladder of 200 px set up just in front of the unit (against a wall
-    // within 40 px); setting it is not the turn's action, climbing it is (as any ladder).
+    // Échelle (2026-10-25): a ladder of 200 px set up just in front of the unit, or up to the top
+    // of a wall within 40 px, 480 px at most (2026-10-31); setting it is not the turn's action,
+    // climbing it is (as any ladder).
     id: 'ladder',
     behavior: 'ladder',
     ...TOOL,
     ammo: 2,
     free: true,
-    ladder: { height: 200 },
+    ladder: { height: 200, wallHeight: 480 },
   },
   {
     // Bannière (2026-10-25): held up for the next fall of the turn: down at 2 px a tick, carried

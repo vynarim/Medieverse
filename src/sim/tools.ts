@@ -559,6 +559,13 @@ export const ladderLook = (rules: UnitRules): number =>
   ladderReach(rules) + LADDER_GAP + LADDER_W - 1;
 
 /**
+ * A ladder leans on the ground and on a built tower's body too, seen behind the play but standing
+ * all the same (2026-10-31, playtest: set beside a tower, it stopped 200 px up).
+ */
+const leanable = (t: Terrain, x: number, y: number): boolean =>
+  isSolid(t, x, y) || materialOf(t, x, y) === Material.Backdrop;
+
+/**
  * Column of the ladder's left edge, and the row of the top of the wall it leans on: against the
  * wall in front within LADDER_LOOK px, or just past the unit's flank on open ground (no wall: -1).
  */
@@ -572,9 +579,9 @@ function ladderColumn(
   for (let d = UNIT_HALF_WIDTH + 1; d <= look; d++) {
     const x = ux + dir * d;
     const low = feet - 20;
-    if (isSolid(t, x, low) || isSolid(t, x, feet - 60)) {
-      let top = isSolid(t, x, low) ? low : feet - 60;
-      while (top > 0 && isSolid(t, x, top - 1)) top--;
+    if (leanable(t, x, low) || leanable(t, x, feet - 60)) {
+      let top = leanable(t, x, low) ? low : feet - 60;
+      while (top > 0 && leanable(t, x, top - 1)) top--;
       const near = x - dir * LADDER_GAP;
       return { x: dir > 0 ? near - LADDER_W + 1 : near, wallTop: top };
     }
@@ -584,8 +591,8 @@ function ladderColumn(
 }
 
 /**
- * The ladder: a strip of ladder from the ground in front of the unit up to `height` px, through
- * the air only, stopped by a ceiling. False (nothing done) with no ground under its foot.
+ * The ladder: a strip of ladder from the ground in front of the unit up to `height` px, or to the
+ * top of the wall it leans on (`wallHeight` px at most), through the air only, stopped by a ceiling. False (nothing done) with no ground under its foot.
  */
 export function placeLadder(s: SimState, u: Unit, def: WeaponDef, events: SimEvent[]): boolean {
   const l = def.ladder;
@@ -603,7 +610,8 @@ export function placeLadder(s: SimState, u: Unit, def: WeaponDef, events: SimEve
   }
   if (foot < 0) return false;
   // Up to the top of the wall it leans on (a rung above it), or its full height.
-  const highest = Math.max(foot - l.height, wallTop < 0 ? 0 : wallTop - 2);
+  const reach = wallTop < 0 ? l.height : (l.wallHeight ?? l.height);
+  const highest = Math.max(foot - reach, wallTop < 0 ? 0 : wallTop - 2);
   let top = foot;
   while (top > highest) {
     let blocked = false;

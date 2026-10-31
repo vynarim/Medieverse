@@ -133,15 +133,15 @@ describe('structures with hit points (GDD §4.7)', () => {
 });
 
 describe('towers built by the match (2026-10-25)', () => {
-  function flat(): Sim {
+  function flat(height = 200, spawn = 400): Sim {
     const rules: MatchRules = {
       ...CALM,
-      structures: { ...STRUCTURE_RULES, towerHeight: 200 },
+      structures: { ...STRUCTURE_RULES, towerHeight: height },
     };
     return new Sim(
       {
         rules,
-        teams: [{ spawns: [400] }, { spawns: [1000] }],
+        teams: [{ spawns: [spawn] }, { spawns: [1000] }],
         structures: [{ id: 1, type: 'tower', build: { x: 600, width: 100, ladder: -1 } }],
       },
       1,
@@ -163,6 +163,18 @@ describe('towers built by the match (2026-10-25)', () => {
     expect(y).toBeLessThan(300);
     expect(x + w).toBe(700);
     expect(y + h).toBeGreaterThan(500);
+  });
+
+  it('take a ladder set beside them up to their top, past its own 200 px (2026-10-31)', () => {
+    // A Siège tower, 440 px high; the unit stands west of its west face (600), facing it.
+    const sim = flat(440, 570);
+    for (let i = 0; i < 2000 && sim.view().turn.phase !== 'action'; i++) sim.step();
+    const events: SimEvent[] = [...sim.step([{ t: 'selectWeapon', id: 'ladder' }])];
+    events.push(...sim.step([{ t: 'aim', angle: 3584 }]));
+    events.push(...sim.step([{ t: 'fire', power: 0 }]));
+    const placed = events.find((e) => e.e === 'ladderPlaced');
+    // Up to a rung above the parapet's top, 440 px above the ground at 500.
+    expect(placed).toMatchObject({ y: 58 });
   });
 
   it('let units walk in front of them', () => {

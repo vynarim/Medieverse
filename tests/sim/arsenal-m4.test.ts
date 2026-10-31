@@ -225,6 +225,36 @@ describe('ladder (GDD §4.4)', () => {
     expect(px(unit(sim, 1)?.y)).toBe(360);
     expect(px(unit(sim, 1)?.x)).toBeGreaterThan(340);
   });
+
+  it('reaches the top of a wall taller than its own 200 px, as a Siège tower (440 px)', () => {
+    const mask = flatMask();
+    for (let y = 60; y < 500; y++) mask.data.fill(Material.Rock, y * 1200 + 360, y * 1200 + 700);
+    const sim = match(CALM, 320, [1000], mask);
+    const events = run(
+      sim,
+      [
+        { t: 'selectWeapon', id: 'ladder' },
+        { t: 'aim', angle: 3584 },
+        { t: 'fire', power: 0 },
+      ],
+      0,
+    );
+    expect(events.find((e) => e.e === 'ladderPlaced')).toMatchObject({ x: 351, y: 58 });
+  });
+
+  it('stands 200 px high with no wall to lean on', () => {
+    const sim = match(CALM, 320, [1000]);
+    const events = run(
+      sim,
+      [
+        { t: 'selectWeapon', id: 'ladder' },
+        { t: 'aim', angle: 3584 },
+        { t: 'fire', power: 0 },
+      ],
+      0,
+    );
+    expect(events.find((e) => e.e === 'ladderPlaced')).toMatchObject({ h: 200 });
+  });
 });
 
 describe('banner (GDD §4.4)', () => {
