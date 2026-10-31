@@ -8,6 +8,7 @@
 // `data-scale` to change it), so that it stands in for the texture the code would paint under
 // that key. A `{v}` in a key is filled by each of the root's `data-variants` (JSON: id and CSS
 // variables), for the colourings of one drawing. Run: pnpm run art.
+import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { chromium } from 'playwright';
 import { parseRig } from '../src/render/rig/format.ts';
@@ -19,6 +20,12 @@ const SCALE = 2;
 const root = new URL('../', import.meta.url);
 const rigsDir = new URL('src/content/rigs/', root);
 const manifest: Record<string, string> = {};
+/**
+ * The file's path with its content's hash: the site keeps /assets/ a year (firebase.json), so a
+ * drawing redone must change its URL to be seen.
+ */
+const versioned = (path: string, png: Buffer): string =>
+  `${path}?v=${createHash('sha1').update(png).digest('hex').slice(0, 8)}`;
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ deviceScaleFactor: SCALE });
@@ -58,7 +65,7 @@ for (const id of readdirSync(rigsDir)) {
     const file = `${pc.key}.png`;
     const png = await page.locator('svg').first().screenshot({ omitBackground: true });
     writeFileSync(new URL(file, outDir), png);
-    manifest[pc.key] = `assets/units/${id}/${file}`;
+    manifest[pc.key] = versioned(`assets/units/${id}/${file}`, png);
     console.log(`OK   ${id}/${pc.id} -> ${file}`);
   }
 }
@@ -113,7 +120,7 @@ for (const file of existsSync(spritesDir) ? readdirSync(spritesDir) : []) {
       );
       const png = await page.locator('svg').first().screenshot({ omitBackground: true });
       writeFileSync(new URL(`${key}.png`, spriteOut), png);
-      manifest[key] = `assets/sprites/${key}.png`;
+      manifest[key] = versioned(`assets/sprites/${key}.png`, png);
       console.log(`OK   ${file} -> ${key}.png`);
     }
   }
