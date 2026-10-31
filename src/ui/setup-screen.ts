@@ -114,6 +114,9 @@ const STYLE = `
 #ui .setup .tools .note { flex: 1 1 auto; margin: 0 0 0 8px; font-size: 15px; }
 #ui .setup > .note { margin: 6px 0 0; font-size: 15px; }
 #ui .setup .start { margin-top: 12px; display: flex; justify-content: flex-end; gap: 8px; }
+/* A phone held sideways: the screen scrolls, the start buttons stay at the foot (2026-11-01). */
+#ui.low .setup .start { position: sticky; bottom: -12px; z-index: 2; margin: 8px -18px -12px;
+  padding: 8px 18px 10px; background: var(--ceruse); border-top: 2px solid var(--gilt); }
 #ui .setup .start.others { margin-top: 4px; justify-content: flex-start; flex-wrap: wrap; }
 /* A house leaves the match: a small round « − », at the end of its row. */
 #ui .setup .house button.drop { margin-left: auto; width: 40px; height: 40px; min-width: 40px;

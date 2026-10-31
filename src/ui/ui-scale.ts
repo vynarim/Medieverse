@@ -32,6 +32,17 @@ export function isShortLandscape(w: number, h: number): boolean {
   return !isPhonePortrait(w, h) && h < SHORT_MAX_H;
 }
 
+/** Tallest window (CSS px) still taken for a phone held sideways (class `low` on #ui). */
+const LOW_MAX_H = 500;
+
+/**
+ * A phone held sideways (2026-11-01): the screen is barely 400 px high, so menus drop their
+ * flavour text and ornaments, and the battle's announcements stay small, under the HUD.
+ */
+export function isLowLandscape(w: number, h: number): boolean {
+  return !isPhonePortrait(w, h) && h < LOW_MAX_H;
+}
+
 /**
  * Overlay scale for a window of w × h CSS pixels, in [UI_SCALE_MIN, 1]. A touch screen (a tablet)
  * is read from further away than a monitor of the same size: it shrinks only below a smaller one.
@@ -39,9 +50,7 @@ export function isShortLandscape(w: number, h: number): boolean {
 export function uiScale(w: number, h: number, touch = false): number {
   const refW = touch ? TOUCH_REF_W : REF_W;
   const refH = touch ? TOUCH_REF_H : REF_H;
-  const s = isPhonePortrait(w, h)
-    ? Math.min(w / PHONE_REF_W, 1)
-    : Math.min(w / refW, h / refH, 1);
+  const s = isPhonePortrait(w, h) ? Math.min(w / PHONE_REF_W, 1) : Math.min(w / refW, h / refH, 1);
   return Math.round(Math.max(UI_SCALE_MIN, s) * 100) / 100;
 }
 

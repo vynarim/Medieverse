@@ -9,6 +9,8 @@ import { declineInstall, installOffer, onInstallable, promptInstall } from '../a
 /** share of the window's width the title page takes, and how far it may grow */
 const TITLE_SHARE = 0.42;
 const TITLE_MAX_SCALE = 1.26;
+/** share of the window's height and width the title page may take at most */
+const TITLE_FILL = 0.96;
 
 const STYLE = `
 #ui .title-screen { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
@@ -57,6 +59,10 @@ const STYLE = `
 #ui.phone .title-screen .actions button { width: min(280px, calc(100vw - 96px)); min-height: 58px; }
 #ui.phone .title-screen .author, #ui.phone .title-screen .version { position: static; margin-top: 14px; }
 #ui.phone .title-screen .version { margin-top: 4px; }
+#ui.low .title-screen .folio { padding: 22px 36px 46px; }
+#ui.low .title-screen .rule { margin: 10px auto 8px; }
+#ui.low .title-screen .sub { margin-bottom: 14px; }
+#ui.low .title-screen .title-sound { top: 10px; right: 12px; }
 `;
 
 let styled = false;
@@ -97,11 +103,15 @@ export function showTitleScreen(choices: TitleChoices): void {
     const w = folio.offsetWidth;
     const h = folio.offsetHeight;
     if (w === 0 || h === 0) return;
+    const grow = Math.min((TITLE_SHARE * window.innerWidth) / w, (0.85 * window.innerHeight) / h);
+    // Never taller nor wider than the screen: a phone held sideways shrinks it (2026-11-01).
     const k = Math.min(
       TITLE_MAX_SCALE,
-      Math.max(1, Math.min((TITLE_SHARE * window.innerWidth) / w, (0.85 * window.innerHeight) / h)),
+      Math.max(1, grow),
+      (TITLE_FILL * window.innerHeight) / h,
+      (TITLE_FILL * window.innerWidth) / w,
     );
-    folio.style.transform = k > 1 ? `scale(${k.toFixed(3)})` : '';
+    folio.style.transform = Math.abs(k - 1) > 0.005 ? `scale(${k.toFixed(3)})` : '';
   };
   const close = (then: () => void): void => {
     stopInstall();

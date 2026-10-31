@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest';
 import {
   UI_SCALE_MIN,
   isPhonePortrait,
-  isShortLandscape, scalableCss,
+  isLowLandscape,
+  isShortLandscape,
+  scalableCss,
   uiScale,
 } from '../../src/ui/ui-scale.ts';
 
@@ -24,6 +26,9 @@ describe('uiScale', () => {
     expect(isShortLandscape(1920, 1080)).toBe(false);
     // An iPad Air held sideways (2026-10-31): its setup screen did not fit unscrolled.
     expect(isShortLandscape(1180, 820)).toBe(true);
+    // A phone held sideways (2026-11-01): the compact layout, not a tablet's.
+    expect(isLowLandscape(844, 390)).toBe(true);
+    expect(isLowLandscape(1280, 800)).toBe(false);
     expect(isShortLandscape(390, 844)).toBe(false);
   });
   it('never goes below the legibility floor', () => {

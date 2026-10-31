@@ -3,7 +3,13 @@
 import { FONT_CAPS, FONT_TEXT, FONT_TITLE } from './fonts.ts';
 import { COLORS, css } from './tokens.ts';
 import { t } from './i18n.ts';
-import { isPhonePortrait, isShortLandscape, scalableCss, uiScale } from './ui-scale.ts';
+import {
+  isLowLandscape,
+  isPhonePortrait,
+  isShortLandscape,
+  scalableCss,
+  uiScale,
+} from './ui-scale.ts';
 
 const STYLE = `
 :root {
@@ -271,8 +277,8 @@ const STYLE = `
 /* Flavour text: in full on a wide screen; on a phone held upright, behind a « ? » (infoButton),
    and in the setup screen of a short landscape screen (a tablet), which must fit unscrolled. */
 #ui .info { display: none; }
-#ui.phone .ambient, #ui.short .setup .ambient { display: none !important; }
-#ui.phone .info, #ui.short .setup .info { display: inline-flex; align-items: center; justify-content: center; flex: none;
+#ui.phone .ambient, #ui.low .ambient, #ui.short .setup .ambient { display: none !important; }
+#ui.phone .info, #ui.low .info, #ui.short .setup .info { display: inline-flex; align-items: center; justify-content: center; flex: none;
   width: 30px; height: 30px; margin: 0 0 0 8px; vertical-align: middle; border-radius: 50%;
   font-family: var(--text); font-size: 20px; font-weight: bold; line-height: 1; color: var(--lapis);
   background: var(--ceruse); border: 2px solid var(--azur); pointer-events: auto; cursor: pointer; }
@@ -329,6 +335,23 @@ html.phone #game { height: calc(100% - var(--bar-h, 0px)); }
 #ui.phone .banner .big { font-size: 36px; }
 #ui.phone .banner .sub { font-size: 18px; }
 #ui.phone .banner .quip { display: none; }
+/* A phone held sideways (2026-11-01): every window fits the 400-odd px of height, the pause
+   menu without the match's card, and the announcements stay small in the sky under the HUD. */
+#ui.low .modal { max-height: calc(100% - 12px); padding: 10px 18px 12px; }
+#ui.low h2 { font-size: 28px; margin-bottom: 6px; }
+#ui.low .help { height: calc(100% - 12px); }
+#ui.low .tuto-pic svg { max-height: 26vh; margin-bottom: 4px; }
+#ui.low .pause .pause-match, #ui.low .pause > p { display: none; }
+#ui.low .pause .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+#ui.low .pause .actions > * { min-width: 0; }
+#ui.low .pause .thirds { grid-column: 1 / -1; }
+#ui.low .banner { top: 96px; transform: translateX(-50%); padding: 6px 18px 8px; }
+#ui.low .banner .big { font-size: 34px; }
+#ui.low .banner .sub { font-size: 17px; }
+#ui.low .banner .quip { display: none; }
+#ui.low .chronicles { top: 96px; max-width: calc(100vw - 420px); }
+#ui.low .chronicle { min-width: 0; max-width: 100%; padding: 3px 16px; font-size: 16px; opacity: 0.92; }
+#ui.low .chronicle:not(:last-child) { display: none; }
 `;
 
 /** Unscaled rules: touch targets stay 48 px whatever the overlay scale (rules/render.md). */
@@ -355,6 +378,7 @@ export function uiRoot(): HTMLElement {
     root?.classList.toggle('phone', phone);
     document.documentElement.classList.toggle('phone', phone);
     root?.classList.toggle('short', isShortLandscape(window.innerWidth, window.innerHeight));
+    root?.classList.toggle('low', isLowLandscape(window.innerWidth, window.innerHeight));
     measureBars();
   };
   fit();
