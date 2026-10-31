@@ -9,11 +9,6 @@
 import Phaser from 'phaser';
 import type { ClassId } from '../content/classes.ts';
 import { COLORS } from '../ui/tokens.ts';
-import { KNIGHT_PIECES } from './rig/knight-art.ts';
-import { drawRigAtRest } from './rig/rest.ts';
-import { rigSet } from './rig/rigs.ts';
-
-const KNIGHT = rigSet('knight');
 
 type G = Phaser.GameObjects.Graphics;
 type Pt = { x: number; y: number };
@@ -292,11 +287,8 @@ export function drawFigure(
   }
   switch (cls ?? 'knight') {
     case 'knight':
-      // The rig's pieces at rest (render/rig, BACKLOG 6.1): the battle animates them.
-      drawRigAtRest(g, KNIGHT.rig, KNIGHT_PIECES, x, y, facing, {
-        primary,
-        secondary,
-      });
+      // Drawn from its painting (assets/units/knight); this capsule stands in should it be missing.
+      F.shape([P(-9, -78), P(9, -78), P(9, -2), P(-9, -2)], primary);
       break;
     case 'king':
       // The mantle behind, its ermine lining showing at the edge.

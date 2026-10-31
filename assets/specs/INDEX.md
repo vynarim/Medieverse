@@ -2,4 +2,4 @@
 
 | Id | Priorité | Statut | Fiche |
 |---|---|---|---|
-| `unit_knight` | P0 | spec (SVG livré le 2026-10-31 ; essai de génération en cours) | [unit_knight.md](unit_knight.md) |
+| `unit_knight` | P0 | produit (image générée découpée par `gen/cut.py`, 2026-10-31 ; à valider en jeu) | [unit_knight.md](unit_knight.md) |

@@ -49,7 +49,6 @@ import { FixedStep } from './fixed-step.ts';
 import { TerrainLayer } from './terrain-layer.ts';
 import { drawClassMark } from './class-marks.ts';
 import { drawFigure, drawNimbus } from './figures.ts';
-import { KNIGHT_PIECES } from './rig/knight-art.ts';
 import { RigView, rigTextures } from './rig/rig-view.ts';
 import { RIGS, rigSet, type RigSet } from './rig/rigs.ts';
 import { boneOrigin, restPose } from './rig/runtime.ts';
@@ -472,9 +471,8 @@ export class BattleScene extends Phaser.Scene {
     this.scenery = new Scenery(this, this.sim.view().terrain, map.theme);
     this.terrain = new TerrainLayer(this, () => this.sim.view().terrain, map.theme);
     this.world = this.add.graphics().setDepth(6);
-    for (const set of RIGS.values()) {
-      rigTextures(this, set.rig, set.rig.id === 'knight' ? KNIGHT_PIECES : {});
-    }
+    // A piece whose drawing is not loaded is a plain frame at its size (ASSETS §2.1).
+    for (const set of RIGS.values()) rigTextures(this, set.rig, {});
     this.front = this.add.graphics().setDepth(FRONT_DEPTH);
     // In front of the units it swoops on, behind their labels.
     this.dragonImg = this.add

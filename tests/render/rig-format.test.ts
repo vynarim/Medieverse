@@ -3,8 +3,6 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { parseAnim, parseRig, RigFormatError, type RigDef } from '../../src/render/rig/format.ts';
-import { KNIGHT_PIECES } from '../../src/render/rig/knight-art.ts';
-import { BoundsPen, Frame } from '../../src/render/rig/pen.ts';
 import { restCorners } from '../../src/render/rig/rest.ts';
 import { RIGS } from '../../src/render/rig/rigs.ts';
 
@@ -36,7 +34,9 @@ describe('rig files', () => {
   it('every class has its rig, on the skeleton of the knight, playing its animations', () => {
     for (const cls of ['knight', 'archer', 'slinger', 'sapper', 'cleric', 'king']) {
       const set = RIGS.get(cls);
-      expect(set?.rig.bones).toEqual(knight.rig.bones);
+      // The same bones, chained alike: each class's own drawing sets where its joints lie.
+      const chain = (bones: RigDef['bones'] = []) => bones.map((b) => [b.id, b.parent]);
+      expect(chain(set?.rig.bones)).toEqual(chain(knight.rig.bones));
       expect([...(set?.anims.keys() ?? [])].sort()).toEqual([...knight.anims.keys()].sort());
     }
   });
@@ -92,30 +92,20 @@ describe('rig files', () => {
     }
   });
 
-  it('every piece has its placeholder, drawn inside the piece at its size and pivot', () => {
-    const rig: RigDef = knight.rig;
-    expect(Object.keys(KNIGHT_PIECES).sort()).toEqual(rig.pieces.map((p) => p.id).sort());
-    const corners = restCorners(rig);
-    for (const pc of rig.pieces) {
-      const pen = new BoundsPen();
-      KNIGHT_PIECES[pc.id]?.(new Frame(pen, 0, 0, 1), { primary: 0, secondary: 0 });
-      const c = corners.get(pc.id);
-      if (!c) throw new Error(pc.id);
-      expect(pen.minX, pc.id).toBeGreaterThanOrEqual(c.x);
-      expect(pen.minY, pc.id).toBeGreaterThanOrEqual(c.y);
-      expect(pen.maxX, pc.id).toBeLessThanOrEqual(c.x + pc.size[0]);
-      expect(pen.maxY, pc.id).toBeLessThanOrEqual(c.y + pc.size[1]);
-    }
-  });
-
   it('the figure at rest stands on the ground and is as tall as the rig says', () => {
-    const pen = new BoundsPen();
+    const corners = restCorners(knight.rig);
+    let top = 0;
+    let bottom = -Infinity;
     for (const pc of knight.rig.pieces) {
-      if (pc.slot) continue;
-      KNIGHT_PIECES[pc.id]?.(new Frame(pen, 0, 0, 1), { primary: 0, secondary: 0 });
+      const c = corners.get(pc.id);
+      if (!c || pc.slot) continue;
+      top = Math.min(top, c.y);
+      bottom = Math.max(bottom, c.y + pc.size[1]);
     }
-    expect(pen.maxY).toBeCloseTo(0, 0);
-    expect(-pen.minY).toBeGreaterThanOrEqual(knight.rig.height - 1);
+    // Rectangles are whole px: the soles' may reach a px under the ground, the drawing does not.
+    expect(bottom).toBeGreaterThanOrEqual(0);
+    expect(bottom).toBeLessThanOrEqual(1.5);
+    expect(-top).toBeGreaterThanOrEqual(knight.rig.height - 1);
   });
 });
 

@@ -1,0 +1,16 @@
+<!-- The held weapons of the vector knight (2026-10-31), drawn for a hand at (HAND_X, HAND_Y) of cut.py;
+     shared by every class (same keys). cut.py moves them to the painted hand. -->
+<g>
+  <g id="piece-weapon_bow">
+      <path d="M29.6 -46.8 L9.4 -28.2" fill="none" stroke="#e9dcc0" stroke-width="0.7"/>
+      <path d="M29.6 -46.8 L9.4 -28.2" fill="none" stroke-width="0.25"/>
+      <path d="M29.6 -46.8 C33.4 -38 32 -31 25.6 -27.6 C21 -25 15 -25.8 9.4 -28.2" fill="none" stroke-width="3.4"/>
+      <path d="M29.6 -46.8 C33.4 -38 32 -31 25.6 -27.6 C21 -25 15 -25.8 9.4 -28.2" fill="none" stroke="#8a5a32" stroke-width="1.9"/>
+      <path d="M28.4 -31.6 L26.2 -29.4" fill="none" stroke="#b8322a" stroke-width="2.2"/>
+    </g>
+  <g id="piece-weapon_stone">
+      <path d="M15.4 -41.6 C15 -44 17.4 -45.6 20 -45.4 C22.8 -45.2 24.6 -43.4 24.4 -40.8 C24.2 -37.8 21.8 -36.2 19.2 -36.4 C16.6 -36.6 15.6 -38.8 15.4 -41.6 Z"
+        fill="#77737a" stroke-width="0.95"/>
+      <path d="M17.6 -43 C18.6 -44 20 -44.2 21.2 -43.8" fill="none" stroke="#c9c6bf" stroke-width="0.8"/>
+    </g>
+</g>
