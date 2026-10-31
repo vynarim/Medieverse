@@ -68,6 +68,7 @@ import {
 } from '../sim/tools.ts';
 import { isProjectile, isTargeted, type WeaponDef, type WeaponId } from '../content/weapons.ts';
 import { aiHouses, matchConfig, rulesFor, saveSetup, type MatchSetup } from '../app/match-setup.ts';
+import { hideLoading, painted, showLoading } from '../ui/loading-screen.ts';
 import { AIInputSource } from '../input/ai-input.ts';
 import { showSetupScreen } from '../ui/setup-screen.ts';
 import { nameHouses } from '../ui/house-names.ts';
@@ -253,6 +254,8 @@ const LABEL_STACK = 36;
 const LABEL_APART = 76;
 /** ms the tiny help bubble over a unit that cannot play stays up */
 const TIP_MS = 2600;
+/** ticks a unit pushes against a slope without moving before the bubble says to jump */
+const STUCK_TICKS = 12;
 /** ms the counter of steps left stays after the unit stops walking */
 const STEPS_SHOWN_MS = 1500;
 /** px of walk in one step: a unit's width (GDD §2.2, 280 px = 10 steps) */
@@ -311,6 +314,8 @@ export class BattleScene extends Phaser.Scene {
   private infoRef: ObjectRef | null = null;
   /** a teammate clicked that cannot take the turn: why, over its head, until `until` (ms) */
   private tip: { unitId: number; key: string; until: number } | null = null;
+  /** the player's unit pushing against a slope it cannot walk up: where, and since which tick */
+  private stuck: { unitId: number; x: number; since: number } | null = null;
   /** the figure about to be placed, one per rig, made when first needed */
   private readonly ghosts = new Map<string, RigView>();
   /** the beast of the margins, once its drawing is loaded */
@@ -638,6 +643,8 @@ export class BattleScene extends Phaser.Scene {
       cam.setZoom(f.zoom);
       cam.centerOn(f.x, f.y);
     }
+    // The battle is built: the loading panel of « À la bataille ! » goes.
+    hideLoading();
   }
 
   /** Zoom that never shows past the map edges (the sky above excepted), on this screen. */
@@ -735,15 +742,19 @@ export class BattleScene extends Phaser.Scene {
   private startMatch(setup: MatchSetup, overrides: TuningOverrides): void {
     clearSave();
     const seed = (this.data_.seed + 0x9e3779b9) >>> 0;
-    // Each match draws its map anew, from the chosen theme and its own seed.
-    const built = buildMap(setup.map, seed);
-    const data: BattleData = {
-      ...battleMap(built),
-      rules: rulesFor(setup, overrides),
-      setup,
-      seed,
-    };
-    this.scene.restart(data);
+    // The map is drawn and the scene built behind the loading panel, gone at the first frame.
+    showLoading();
+    void painted().then(() => {
+      // Each match draws its map anew, from the chosen theme and its own seed.
+      const built = buildMap(setup.map, seed);
+      const data: BattleData = {
+        ...battleMap(built),
+        rules: rulesFor(setup, overrides),
+        setup,
+        seed,
+      };
+      this.scene.restart(data);
+    });
   }
 
   /** « Revoir la partie »: the match played so far (or the one being watched), from its start. */
@@ -947,6 +958,7 @@ export class BattleScene extends Phaser.Scene {
     this.ui.update(this.sim.view(), this.input_.controls.power, time);
     this.ui.showResetView(this.manualCamera);
     this.updateBubble();
+    this.watchStuck();
     this.updateTip();
     this.updateSteps();
     if (this.selectedUnit !== null) {
@@ -1075,7 +1087,6 @@ export class BattleScene extends Phaser.Scene {
     } else this.tip = null;
   }
 
-  /** Keeps the tiny help bubble over its unit while it lasts. */
   /** The walking unit's counter of steps left (a step is a unit's width, GDD §2.2). */
   private updateSteps(): void {
     const v = this.sim.view();
@@ -1121,6 +1132,37 @@ export class BattleScene extends Phaser.Scene {
     st.text.setColor(css(n === 0 ? COLORS.vermillon : COLORS.encre));
   }
 
+  /**
+   * The player walks into a slope too steep or a spike too high: the unit stays put, and after
+   * a moment a tiny bubble over it says to jump.
+   */
+  private watchStuck(): void {
+    const v = this.sim.view();
+    const t = v.turn;
+    const u = v.units.find((x) => x.id === t.activeUnitId);
+    const pushing =
+      u?.alive === true &&
+      u.grounded &&
+      t.walkDir !== 0 &&
+      t.climbDir === 0 &&
+      (t.phase === 'action' || t.phase === 'retreat') &&
+      (v.rules.unit.moveBudget === undefined || t.moveLeft > 0) &&
+      this.mine(t.activeTeam) &&
+      !this.replaying;
+    if (!u || !pushing) {
+      this.stuck = null;
+      return;
+    }
+    if (this.stuck?.unitId !== u.id || this.stuck.x !== u.x) {
+      this.stuck = { unitId: u.id, x: u.x, since: v.tick };
+      return;
+    }
+    if (v.tick - this.stuck.since >= STUCK_TICKS) {
+      this.tip = { unitId: u.id, key: 'tip.tooSteep', until: this.time.now + TIP_MS };
+    }
+  }
+
+  /** Keeps the tiny help bubble over its unit while it lasts. */
   private updateTip(): void {
     const tip = this.tip;
     const u = tip ? this.sim.view().units.find((x) => x.id === tip.unitId) : undefined;

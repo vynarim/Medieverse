@@ -22,6 +22,8 @@ describe('uiScale', () => {
   it('takes a short landscape screen for a tablet, not a phone upright', () => {
     expect(isShortLandscape(1280, 800)).toBe(true);
     expect(isShortLandscape(1920, 1080)).toBe(false);
+    // An iPad Air held sideways (2026-10-31): its setup screen did not fit unscrolled.
+    expect(isShortLandscape(1180, 820)).toBe(true);
     expect(isShortLandscape(390, 844)).toBe(false);
   });
   it('never goes below the legibility floor', () => {

@@ -14,6 +14,8 @@ import { watchOrientation } from './orientation.ts';
 import { audio } from '../render/audio.ts';
 import { music } from '../render/music.ts';
 import { loadOverrides } from '../ui/game-ui.ts';
+import { painted, showLoading } from '../ui/loading-screen.ts';
+import { preloadArt } from '../render/art-loader.ts';
 import { decodeMaskPng } from './loaders/mask-png.ts';
 import { buildMap, legacyMap, mapForLog, type BuiltMap } from './map-build.ts';
 import { loadOnlineCode, type OnlineMatch } from './online.ts';
@@ -49,25 +51,33 @@ async function boot(): Promise<void> {
   });
   const overrides = loadOverrides();
   const setup = loadSetup(Object.keys(overrides).length > 0);
-  const start = (chosen: MatchSetup, map: BuiltMap, logs: Partial<BattleData> = {}): void => {
-    const data: BattleData = {
-      ...battleMap(map),
+  // The art loads behind the title and setup screens; the battle waits for it.
+  const artReady = preloadArt(game);
+  /** Opens the battle behind a loading panel, which stays until its first frame is built. */
+  const battle = async (data: () => BattleData): Promise<void> => {
+    showLoading();
+    await painted();
+    await artReady;
+    game.scene.add('battle', BattleScene, true, data());
+  };
+  const start = (chosen: MatchSetup, map: () => BuiltMap, logs: Partial<BattleData> = {}): void => {
+    void battle(() => ({
+      ...battleMap(map()),
       seed,
       rules: rulesFor(chosen, overrides),
       setup: chosen,
       ...logs,
-    };
-    game.scene.add('battle', BattleScene, true, data);
+    }));
   };
   const play = (m: OnlineMatch): void => {
-    game.scene.add('battle', BattleScene, true, onlineBattle(m));
+    void battle(() => onlineBattle(m));
   };
   const choose = (): void => {
     showSetupScreen(
       setup,
       (chosen) => {
         saveSetup(chosen);
-        start(chosen, buildMap(chosen.map, seed));
+        start(chosen, () => buildMap(chosen.map, seed));
       },
       title,
       {
@@ -86,7 +96,7 @@ async function boot(): Promise<void> {
   const resume = code
     ? () => rejoinFlow(code, play, choose)
     : save && saved
-      ? () => start(setup, saved, { resume: save })
+      ? () => start(setup, () => saved, { resume: save })
       : undefined;
   function title(): void {
     showTitleScreen({

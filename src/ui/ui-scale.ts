@@ -22,7 +22,7 @@ export function isPhonePortrait(w: number, h: number): boolean {
 }
 
 /** Tallest window (CSS px) still taken for a short landscape screen: a tablet, a small laptop. */
-const SHORT_MAX_H = 820;
+const SHORT_MAX_H = 860;
 
 /**
  * A screen held sideways but short (a tablet in landscape): the flavour text folds behind a « ? »
