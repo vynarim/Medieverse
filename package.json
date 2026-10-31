@@ -28,6 +28,7 @@
     "manual": "node tools/build-manual.ts",
     "icons": "node tools/build-icons.ts",
     "online:probe": "node tools/online-probe.ts",
+    "perf:fps": "node tools/fps-probe.ts",
     "check": "pnpm run lint && pnpm run typecheck && pnpm test && pnpm run test:determinism && pnpm run test:browser",
     "art": "node tools/build-art.ts"
   },
