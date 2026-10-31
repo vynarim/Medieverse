@@ -14,113 +14,113 @@
     {
       "id": "center",
       "parent": "root",
-      "x": 0,
-      "y": -40,
+      "x": 0.0,
+      "y": -34.25,
       "rot": 0
     },
     {
       "id": "pelvis",
       "parent": "center",
-      "x": 0,
-      "y": 16,
+      "x": 0.0,
+      "y": 14.38,
       "rot": 0
     },
     {
       "id": "thigh_far",
       "parent": "pelvis",
-      "x": -3,
-      "y": 0,
+      "x": -10.06,
+      "y": -0.11,
       "rot": 0
     },
     {
       "id": "shin_far",
       "parent": "thigh_far",
-      "x": 0,
-      "y": 11,
+      "x": 0.0,
+      "y": 6.74,
       "rot": 0
     },
     {
       "id": "foot_far",
       "parent": "shin_far",
-      "x": 0,
-      "y": 9,
+      "x": 0.0,
+      "y": 6.74,
       "rot": 0
     },
     {
       "id": "thigh_near",
       "parent": "pelvis",
-      "x": 3,
-      "y": 0,
+      "x": 9.5,
+      "y": -0.09,
       "rot": 0
     },
     {
       "id": "shin_near",
       "parent": "thigh_near",
-      "x": 0,
-      "y": 11,
+      "x": 0.0,
+      "y": 6.73,
       "rot": 0
     },
     {
       "id": "foot_near",
       "parent": "shin_near",
-      "x": 0,
-      "y": 9,
+      "x": 0.0,
+      "y": 6.73,
       "rot": 0
     },
     {
       "id": "torso",
       "parent": "center",
-      "x": 0,
-      "y": 0,
+      "x": 0.0,
+      "y": 0.0,
       "rot": 0
     },
     {
       "id": "head",
       "parent": "torso",
-      "x": 1,
-      "y": -17,
+      "x": -2.06,
+      "y": -19.56,
       "rot": 0
     },
     {
       "id": "arm_far_upper",
       "parent": "torso",
-      "x": -8,
-      "y": -17,
+      "x": 10.12,
+      "y": -14.38,
       "rot": 0
     },
     {
       "id": "arm_far_lower",
       "parent": "arm_far_upper",
-      "x": -5,
-      "y": 9,
+      "x": 0.0,
+      "y": 9.4,
       "rot": 0
     },
     {
       "id": "hand_far",
       "parent": "arm_far_lower",
-      "x": 0,
-      "y": 8,
+      "x": 0.0,
+      "y": 12.21,
       "rot": 0
     },
     {
       "id": "arm_near_upper",
       "parent": "torso",
-      "x": 7,
-      "y": -17,
+      "x": -10.5,
+      "y": -13.12,
       "rot": 0
     },
     {
       "id": "arm_near_lower",
       "parent": "arm_near_upper",
-      "x": 5,
-      "y": 10,
+      "x": 0.0,
+      "y": 9.03,
       "rot": 0
     },
     {
       "id": "hand_near",
       "parent": "arm_near_lower",
-      "x": 7,
-      "y": 9.5,
+      "x": 0.0,
+      "y": 12.08,
       "rot": 0
     }
   ],
@@ -129,238 +129,184 @@
       "id": "pick",
       "bone": "torso",
       "key": "unit_sapper_pick",
-      "size": [
-        30,
-        50
-      ],
-      "pivot": [
-        22,
-        36
-      ],
+      "size": [18, 21],
+      "pivot": [28.0, 30.75],
       "tint": null
     },
     {
       "id": "thigh_far",
       "bone": "thigh_far",
       "key": "unit_sapper_thigh_far",
-      "size": [
-        14,
-        25
-      ],
-      "pivot": [
-        7,
-        8
-      ],
+      "size": [10, 11],
+      "pivot": [4.94, 3.01],
       "tint": null
     },
     {
       "id": "shin_far",
       "bone": "shin_far",
       "key": "unit_sapper_shin_far",
-      "size": [
-        12,
-        20
-      ],
-      "pivot": [
-        6,
-        6
-      ],
+      "size": [11, 7],
+      "pivot": [5.94, 1.76],
       "tint": null
     },
     {
       "id": "foot_far",
       "bone": "foot_far",
       "key": "unit_sapper_foot_far",
-      "size": [
-        16,
-        7
-      ],
-      "pivot": [
-        5,
-        2
-      ],
+      "size": [16, 12],
+      "pivot": [5.94, 4.5],
       "tint": null
     },
     {
       "id": "thigh_near",
       "bone": "thigh_near",
       "key": "unit_sapper_thigh_near",
-      "size": [
-        14,
-        25
-      ],
-      "pivot": [
-        7,
-        8
-      ],
+      "size": [11, 11],
+      "pivot": [5.5, 3.03],
       "tint": null
     },
     {
       "id": "shin_near",
       "bone": "shin_near",
       "key": "unit_sapper_shin_near",
-      "size": [
-        12,
-        20
-      ],
-      "pivot": [
-        6,
-        6
-      ],
+      "size": [11, 6],
+      "pivot": [5.5, 1.77],
       "tint": null
     },
     {
       "id": "foot_near",
       "bone": "foot_near",
       "key": "unit_sapper_foot_near",
-      "size": [
-        16,
-        7
-      ],
-      "pivot": [
-        5,
-        2
-      ],
+      "size": [18, 11],
+      "pivot": [5.5, 4.5],
       "tint": null
+    },
+    {
+      "id": "arm_far_upper_a",
+      "bone": "arm_far_upper",
+      "key": "unit_sapper_arm_far_upper_a_tint",
+      "size": [7, 15],
+      "pivot": [4.12, 4.38],
+      "tint": "primary"
     },
     {
       "id": "arm_far_upper",
       "bone": "arm_far_upper",
-      "key": "unit_sapper_arm_far_upper_tint",
-      "size": [
-        17,
-        21
-      ],
-      "pivot": [
-        11,
-        6
-      ],
+      "key": "unit_sapper_arm_far_upper",
+      "size": [8, 15],
+      "pivot": [5.12, 4.38],
+      "tint": null
+    },
+    {
+      "id": "arm_far_lower_a",
+      "bone": "arm_far_lower",
+      "key": "unit_sapper_arm_far_lower_a_tint",
+      "size": [9, 11],
+      "pivot": [5.12, 1.78],
       "tint": "primary"
     },
     {
       "id": "arm_far_lower",
       "bone": "arm_far_lower",
-      "key": "unit_sapper_arm_far_lower_tint",
-      "size": [
-        12,
-        19
-      ],
-      "pivot": [
-        6,
-        6
-      ],
+      "key": "unit_sapper_arm_far_lower",
+      "size": [9, 11],
+      "pivot": [5.12, 1.78],
+      "tint": null
+    },
+    {
+      "id": "hand_far_a",
+      "bone": "hand_far",
+      "key": "unit_sapper_hand_far_a_tint",
+      "size": [9, 10],
+      "pivot": [5.12, 5.99],
       "tint": "primary"
     },
     {
       "id": "hand_far",
       "bone": "hand_far",
       "key": "unit_sapper_hand_far",
-      "size": [
-        11,
-        10
-      ],
-      "pivot": [
-        6,
-        4
-      ],
+      "size": [9, 10],
+      "pivot": [5.12, 5.99],
       "tint": null
+    },
+    {
+      "id": "torso_a",
+      "bone": "torso",
+      "key": "unit_sapper_torso_a_tint",
+      "size": [31, 41],
+      "pivot": [16.0, 20.75],
+      "tint": "primary"
+    },
+    {
+      "id": "torso_b",
+      "bone": "torso",
+      "key": "unit_sapper_torso_b_tint",
+      "size": [31, 41],
+      "pivot": [16.0, 20.75],
+      "tint": "secondary"
     },
     {
       "id": "torso",
       "bone": "torso",
-      "key": "unit_sapper_torso_tint",
-      "size": [
-        38,
-        49
-      ],
-      "pivot": [
-        19,
-        24
-      ],
+      "key": "unit_sapper_torso",
+      "size": [31, 42],
+      "pivot": [16.0, 20.75],
+      "tint": null
+    },
+    {
+      "id": "arm_near_upper_a",
+      "bone": "arm_near_upper",
+      "key": "unit_sapper_arm_near_upper_a_tint",
+      "size": [12, 16],
+      "pivot": [6.5, 5.62],
       "tint": "primary"
-    },
-    {
-      "id": "apron",
-      "bone": "torso",
-      "key": "unit_sapper_apron",
-      "size": [
-        22,
-        44
-      ],
-      "pivot": [
-        7,
-        23
-      ],
-      "tint": null
-    },
-    {
-      "id": "belt",
-      "bone": "torso",
-      "key": "unit_sapper_belt",
-      "size": [
-        26,
-        8
-      ],
-      "pivot": [
-        13,
-        6
-      ],
-      "tint": null
     },
     {
       "id": "arm_near_upper",
       "bone": "arm_near_upper",
-      "key": "unit_sapper_arm_near_upper_tint",
-      "size": [
-        17,
-        22
-      ],
-      "pivot": [
-        6,
-        6
-      ],
+      "key": "unit_sapper_arm_near_upper",
+      "size": [13, 16],
+      "pivot": [7.5, 5.62],
+      "tint": null
+    },
+    {
+      "id": "arm_near_lower_a",
+      "bone": "arm_near_lower",
+      "key": "unit_sapper_arm_near_lower_a_tint",
+      "size": [10, 11],
+      "pivot": [5.5, 1.65],
       "tint": "primary"
     },
     {
       "id": "arm_near_lower",
       "bone": "arm_near_lower",
-      "key": "unit_sapper_arm_near_lower_tint",
-      "size": [
-        18,
-        20
-      ],
-      "pivot": [
-        6,
-        6
-      ],
+      "key": "unit_sapper_arm_near_lower",
+      "size": [10, 11],
+      "pivot": [5.5, 1.65],
+      "tint": null
+    },
+    {
+      "id": "hand_near_a",
+      "bone": "hand_near",
+      "key": "unit_sapper_hand_near_a_tint",
+      "size": [11, 10],
+      "pivot": [4.5, 5.74],
       "tint": "primary"
     },
     {
       "id": "hand_near",
       "bone": "hand_near",
       "key": "unit_sapper_hand_near",
-      "size": [
-        11,
-        11
-      ],
-      "pivot": [
-        5,
-        5.5
-      ],
+      "size": [11, 10],
+      "pivot": [4.5, 5.74],
       "tint": null
     },
     {
       "id": "weapon_bow",
       "bone": "hand_near",
       "key": "weapon_bow_held",
-      "size": [
-        34,
-        27
-      ],
-      "pivot": [
-        17,
-        13.5
-      ],
+      "size": [34, 27],
+      "pivot": [17, 13.5],
       "tint": null,
       "slot": {
         "slot": "weapon",
@@ -371,14 +317,8 @@
       "id": "weapon_stone",
       "bone": "hand_near",
       "key": "weapon_stone_held",
-      "size": [
-        14,
-        13
-      ],
-      "pivot": [
-        6,
-        8.5
-      ],
+      "size": [14, 13],
+      "pivot": [6, 8.5],
       "tint": null,
       "slot": {
         "slot": "weapon",
@@ -386,46 +326,20 @@
       }
     },
     {
-      "id": "neck",
-      "bone": "torso",
-      "key": "unit_sapper_neck",
-      "size": [
-        13,
-        10
-      ],
-      "pivot": [
-        5,
-        21
-      ],
-      "tint": null
+      "id": "head_b",
+      "bone": "head",
+      "key": "unit_sapper_head_b_tint",
+      "size": [26, 28],
+      "pivot": [9.94, 28.19],
+      "tint": "secondary"
     },
     {
       "id": "head",
       "bone": "head",
-      "key": "unit_sapper_head_01",
-      "size": [
-        28,
-        32
-      ],
-      "pivot": [
-        13,
-        27
-      ],
+      "key": "unit_sapper_head",
+      "size": [26, 29],
+      "pivot": [9.94, 28.19],
       "tint": null
-    },
-    {
-      "id": "cap",
-      "bone": "head",
-      "key": "unit_sapper_cap_tint",
-      "size": [
-        26,
-        16
-      ],
-      "pivot": [
-        10,
-        31
-      ],
-      "tint": "secondary"
     }
   ],
   "slots": [

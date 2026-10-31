@@ -14,113 +14,113 @@
     {
       "id": "center",
       "parent": "root",
-      "x": 0,
-      "y": -40,
+      "x": 0.0,
+      "y": -35.5,
       "rot": 0
     },
     {
       "id": "pelvis",
       "parent": "center",
-      "x": 0,
-      "y": 16,
+      "x": 0.0,
+      "y": 12.5,
       "rot": 0
     },
     {
       "id": "thigh_far",
       "parent": "pelvis",
-      "x": -3,
-      "y": 0,
+      "x": -11.12,
+      "y": -0.6,
       "rot": 0
     },
     {
       "id": "shin_far",
       "parent": "thigh_far",
-      "x": 0,
-      "y": 11,
+      "x": 0.0,
+      "y": 8.8,
       "rot": 0
     },
     {
       "id": "foot_far",
       "parent": "shin_far",
-      "x": 0,
-      "y": 9,
+      "x": 0.0,
+      "y": 8.8,
       "rot": 0
     },
     {
       "id": "thigh_near",
       "parent": "pelvis",
-      "x": 3,
-      "y": 0,
+      "x": 9.12,
+      "y": -0.3,
       "rot": 0
     },
     {
       "id": "shin_near",
       "parent": "thigh_near",
-      "x": 0,
-      "y": 11,
+      "x": 0.0,
+      "y": 8.46,
       "rot": 0
     },
     {
       "id": "foot_near",
       "parent": "shin_near",
-      "x": 0,
-      "y": 9,
+      "x": 0.0,
+      "y": 8.46,
       "rot": 0
     },
     {
       "id": "torso",
       "parent": "center",
-      "x": 0,
-      "y": 0,
+      "x": 0.0,
+      "y": 0.0,
       "rot": 0
     },
     {
       "id": "head",
       "parent": "torso",
-      "x": 1,
-      "y": -17,
+      "x": -1.25,
+      "y": -19.06,
       "rot": 0
     },
     {
       "id": "arm_far_upper",
       "parent": "torso",
-      "x": -8,
-      "y": -17,
+      "x": 7.81,
+      "y": -13.75,
       "rot": 0
     },
     {
       "id": "arm_far_lower",
       "parent": "arm_far_upper",
-      "x": -5,
-      "y": 9,
+      "x": 0.0,
+      "y": 8.82,
       "rot": 0
     },
     {
       "id": "hand_far",
       "parent": "arm_far_lower",
-      "x": 0,
-      "y": 8,
+      "x": 0.0,
+      "y": 13.94,
       "rot": 0
     },
     {
       "id": "arm_near_upper",
       "parent": "torso",
-      "x": 7,
-      "y": -17,
+      "x": -11.56,
+      "y": -13.75,
       "rot": 0
     },
     {
       "id": "arm_near_lower",
       "parent": "arm_near_upper",
-      "x": 5,
-      "y": 10,
+      "x": 0.0,
+      "y": 9.45,
       "rot": 0
     },
     {
       "id": "hand_near",
       "parent": "arm_near_lower",
-      "x": 7,
-      "y": 9.5,
+      "x": 0.0,
+      "y": 13.5,
       "rot": 0
     }
   ],
@@ -129,224 +129,128 @@
       "id": "thigh_far",
       "bone": "thigh_far",
       "key": "unit_slinger_thigh_far",
-      "size": [
-        14,
-        25
-      ],
-      "pivot": [
-        7,
-        8
-      ],
+      "size": [8, 14],
+      "pivot": [3.88, 3.4],
       "tint": null
     },
     {
       "id": "shin_far",
       "bone": "shin_far",
       "key": "unit_slinger_shin_far",
-      "size": [
-        12,
-        20
-      ],
-      "pivot": [
-        6,
-        6
-      ],
+      "size": [8, 12],
+      "pivot": [3.88, 1.2],
       "tint": null
     },
     {
       "id": "foot_far",
       "bone": "foot_far",
       "key": "unit_slinger_foot_far",
-      "size": [
-        16,
-        7
-      ],
-      "pivot": [
-        5,
-        2
-      ],
+      "size": [15, 9],
+      "pivot": [5.88, 2.0],
       "tint": null
     },
     {
       "id": "thigh_near",
       "bone": "thigh_near",
       "key": "unit_slinger_thigh_near",
-      "size": [
-        14,
-        25
-      ],
-      "pivot": [
-        7,
-        8
-      ],
+      "size": [7, 14],
+      "pivot": [4.12, 3.7],
       "tint": null
     },
     {
       "id": "shin_near",
       "bone": "shin_near",
       "key": "unit_slinger_shin_near",
-      "size": [
-        12,
-        20
-      ],
-      "pivot": [
-        6,
-        6
-      ],
+      "size": [8, 11],
+      "pivot": [4.12, 1.16],
       "tint": null
     },
     {
       "id": "foot_near",
       "bone": "foot_near",
       "key": "unit_slinger_foot_near",
-      "size": [
-        16,
-        7
-      ],
-      "pivot": [
-        5,
-        2
-      ],
+      "size": [16, 8],
+      "pivot": [4.12, 1.62],
       "tint": null
     },
     {
       "id": "arm_far_upper",
       "bone": "arm_far_upper",
       "key": "unit_slinger_arm_far_upper",
-      "size": [
-        17,
-        21
-      ],
-      "pivot": [
-        11,
-        6
-      ],
+      "size": [7, 14],
+      "pivot": [3.81, 3.75],
       "tint": null
     },
     {
       "id": "arm_far_lower",
       "bone": "arm_far_lower",
       "key": "unit_slinger_arm_far_lower",
-      "size": [
-        12,
-        19
-      ],
-      "pivot": [
-        6,
-        6
-      ],
+      "size": [8, 12],
+      "pivot": [3.81, 1.57],
       "tint": null
     },
     {
       "id": "hand_far",
       "bone": "hand_far",
       "key": "unit_slinger_hand_far",
-      "size": [
-        11,
-        10
-      ],
-      "pivot": [
-        6,
-        4
-      ],
+      "size": [8, 11],
+      "pivot": [3.81, 6.52],
       "tint": null
+    },
+    {
+      "id": "torso_a",
+      "bone": "torso",
+      "key": "unit_slinger_torso_a_tint",
+      "size": [27, 36],
+      "pivot": [13.0, 18.5],
+      "tint": "primary"
+    },
+    {
+      "id": "torso_b",
+      "bone": "torso",
+      "key": "unit_slinger_torso_b_tint",
+      "size": [27, 37],
+      "pivot": [13.0, 18.5],
+      "tint": "secondary"
     },
     {
       "id": "torso",
       "bone": "torso",
-      "key": "unit_slinger_torso_tint",
-      "size": [
-        38,
-        49
-      ],
-      "pivot": [
-        19,
-        24
-      ],
-      "tint": "primary"
-    },
-    {
-      "id": "belt",
-      "bone": "torso",
-      "key": "unit_slinger_belt",
-      "size": [
-        26,
-        8
-      ],
-      "pivot": [
-        13,
-        6
-      ],
-      "tint": null
-    },
-    {
-      "id": "sling",
-      "bone": "torso",
-      "key": "unit_slinger_sling",
-      "size": [
-        12,
-        22
-      ],
-      "pivot": [
-        13,
-        6
-      ],
+      "key": "unit_slinger_torso",
+      "size": [27, 37],
+      "pivot": [13.0, 18.5],
       "tint": null
     },
     {
       "id": "arm_near_upper",
       "bone": "arm_near_upper",
       "key": "unit_slinger_arm_near_upper",
-      "size": [
-        17,
-        22
-      ],
-      "pivot": [
-        6,
-        6
-      ],
+      "size": [8, 15],
+      "pivot": [3.44, 3.75],
       "tint": null
     },
     {
       "id": "arm_near_lower",
       "bone": "arm_near_lower",
       "key": "unit_slinger_arm_near_lower",
-      "size": [
-        18,
-        20
-      ],
-      "pivot": [
-        6,
-        6
-      ],
+      "size": [7, 11],
+      "pivot": [3.44, 1.2],
       "tint": null
     },
     {
       "id": "hand_near",
       "bone": "hand_near",
       "key": "unit_slinger_hand_near",
-      "size": [
-        11,
-        11
-      ],
-      "pivot": [
-        5,
-        5.5
-      ],
+      "size": [10, 11],
+      "pivot": [4.44, 6.7],
       "tint": null
     },
     {
       "id": "weapon_bow",
       "bone": "hand_near",
       "key": "weapon_bow_held",
-      "size": [
-        34,
-        27
-      ],
-      "pivot": [
-        17,
-        13.5
-      ],
+      "size": [34, 27],
+      "pivot": [17, 13.5],
       "tint": null,
       "slot": {
         "slot": "weapon",
@@ -357,14 +261,8 @@
       "id": "weapon_stone",
       "bone": "hand_near",
       "key": "weapon_stone_held",
-      "size": [
-        14,
-        13
-      ],
-      "pivot": [
-        6,
-        8.5
-      ],
+      "size": [14, 13],
+      "pivot": [6, 8.5],
       "tint": null,
       "slot": {
         "slot": "weapon",
@@ -372,31 +270,27 @@
       }
     },
     {
-      "id": "neck",
-      "bone": "torso",
-      "key": "unit_slinger_neck",
-      "size": [
-        13,
-        10
-      ],
-      "pivot": [
-        5,
-        21
-      ],
-      "tint": null
+      "id": "head_a",
+      "bone": "head",
+      "key": "unit_slinger_head_a_tint",
+      "size": [30, 28],
+      "pivot": [14.75, 27.44],
+      "tint": "primary"
+    },
+    {
+      "id": "head_b",
+      "bone": "head",
+      "key": "unit_slinger_head_b_tint",
+      "size": [30, 28],
+      "pivot": [14.75, 27.44],
+      "tint": "secondary"
     },
     {
       "id": "head",
       "bone": "head",
-      "key": "unit_slinger_head_01",
-      "size": [
-        28,
-        32
-      ],
-      "pivot": [
-        13,
-        27
-      ],
+      "key": "unit_slinger_head",
+      "size": [30, 29],
+      "pivot": [14.75, 27.44],
       "tint": null
     }
   ],

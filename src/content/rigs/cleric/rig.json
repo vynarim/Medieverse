@@ -14,113 +14,113 @@
     {
       "id": "center",
       "parent": "root",
-      "x": 0,
-      "y": -40,
+      "x": 0.0,
+      "y": -32.62,
       "rot": 0
     },
     {
       "id": "pelvis",
       "parent": "center",
-      "x": 0,
-      "y": 16,
+      "x": 0.0,
+      "y": 18.12,
       "rot": 0
     },
     {
       "id": "thigh_far",
       "parent": "pelvis",
-      "x": -3,
-      "y": 0,
+      "x": -9.25,
+      "y": 0.0,
       "rot": 0
     },
     {
       "id": "shin_far",
       "parent": "thigh_far",
-      "x": 0,
-      "y": 11,
+      "x": 0.0,
+      "y": 4.75,
       "rot": 0
     },
     {
       "id": "foot_far",
       "parent": "shin_far",
-      "x": 0,
-      "y": 9,
+      "x": 0.0,
+      "y": 4.75,
       "rot": 0
     },
     {
       "id": "thigh_near",
       "parent": "pelvis",
-      "x": 3,
-      "y": 0,
+      "x": 10.0,
+      "y": 0.0,
       "rot": 0
     },
     {
       "id": "shin_near",
       "parent": "thigh_near",
-      "x": 0,
-      "y": 11,
+      "x": 0.0,
+      "y": 4.75,
       "rot": 0
     },
     {
       "id": "foot_near",
       "parent": "shin_near",
-      "x": 0,
-      "y": 9,
+      "x": 0.0,
+      "y": 4.75,
       "rot": 0
     },
     {
       "id": "torso",
       "parent": "center",
-      "x": 0,
-      "y": 0,
+      "x": 0.0,
+      "y": 0.0,
       "rot": 0
     },
     {
       "id": "head",
       "parent": "torso",
-      "x": 1,
-      "y": -17,
+      "x": -1.25,
+      "y": -22.38,
       "rot": 0
     },
     {
       "id": "arm_far_upper",
       "parent": "torso",
-      "x": -8,
-      "y": -17,
+      "x": 11.25,
+      "y": -13.12,
       "rot": 0
     },
     {
       "id": "arm_far_lower",
       "parent": "arm_far_upper",
-      "x": -5,
-      "y": 9,
+      "x": 3.75,
+      "y": 6.88,
       "rot": 0
     },
     {
       "id": "hand_far",
       "parent": "arm_far_lower",
-      "x": 0,
-      "y": 8,
+      "x": 5.62,
+      "y": -2.19,
       "rot": 0
     },
     {
       "id": "arm_near_upper",
       "parent": "torso",
-      "x": 7,
-      "y": -17,
+      "x": -13.12,
+      "y": -14.25,
       "rot": 0
     },
     {
       "id": "arm_near_lower",
       "parent": "arm_near_upper",
-      "x": 5,
-      "y": 10,
+      "x": 0.0,
+      "y": 8.01,
       "rot": 0
     },
     {
       "id": "hand_near",
       "parent": "arm_near_lower",
-      "x": 7,
-      "y": 9.5,
+      "x": 0.0,
+      "y": 12.33,
       "rot": 0
     }
   ],
@@ -129,238 +129,168 @@
       "id": "thigh_far",
       "bone": "thigh_far",
       "key": "unit_cleric_thigh_far",
-      "size": [
-        14,
-        25
-      ],
-      "pivot": [
-        7,
-        8
-      ],
+      "size": [9, 9],
+      "pivot": [4.75, 2.5],
       "tint": null
     },
     {
       "id": "shin_far",
       "bone": "shin_far",
       "key": "unit_cleric_shin_far",
-      "size": [
-        12,
-        20
-      ],
-      "pivot": [
-        6,
-        6
-      ],
+      "size": [9, 7],
+      "pivot": [4.75, 1.25],
       "tint": null
     },
     {
       "id": "foot_far",
       "bone": "foot_far",
       "key": "unit_cleric_foot_far",
-      "size": [
-        16,
-        7
-      ],
-      "pivot": [
-        5,
-        2
-      ],
+      "size": [14, 7],
+      "pivot": [4.75, 1.0],
       "tint": null
     },
     {
       "id": "thigh_near",
       "bone": "thigh_near",
       "key": "unit_cleric_thigh_near",
-      "size": [
-        14,
-        25
-      ],
-      "pivot": [
-        7,
-        8
-      ],
+      "size": [9, 9],
+      "pivot": [4.0, 2.5],
       "tint": null
     },
     {
       "id": "shin_near",
       "bone": "shin_near",
       "key": "unit_cleric_shin_near",
-      "size": [
-        12,
-        20
-      ],
-      "pivot": [
-        6,
-        6
-      ],
+      "size": [9, 7],
+      "pivot": [4.0, 1.25],
       "tint": null
     },
     {
       "id": "foot_near",
       "bone": "foot_near",
       "key": "unit_cleric_foot_near",
-      "size": [
-        16,
-        7
-      ],
-      "pivot": [
-        5,
-        2
-      ],
-      "tint": null
-    },
-    {
-      "id": "arm_far_upper",
-      "bone": "arm_far_upper",
-      "key": "unit_cleric_arm_far_upper_tint",
-      "size": [
-        17,
-        21
-      ],
-      "pivot": [
-        11,
-        6
-      ],
-      "tint": "primary"
-    },
-    {
-      "id": "arm_far_lower",
-      "bone": "arm_far_lower",
-      "key": "unit_cleric_arm_far_lower",
-      "size": [
-        12,
-        19
-      ],
-      "pivot": [
-        6,
-        6
-      ],
+      "size": [13, 6],
+      "pivot": [4.0, 1.0],
       "tint": null
     },
     {
       "id": "crosier",
       "bone": "hand_far",
       "key": "unit_cleric_crosier",
-      "size": [
-        16,
-        88
-      ],
-      "pivot": [
-        11,
-        48
-      ],
+      "size": [18, 82],
+      "pivot": [4.62, 40.94],
+      "tint": null
+    },
+    {
+      "id": "arm_far_upper_a",
+      "bone": "arm_far_upper",
+      "key": "unit_cleric_arm_far_upper_a_tint",
+      "size": [8, 17],
+      "pivot": [1.25, 3.25],
+      "tint": "primary"
+    },
+    {
+      "id": "arm_far_upper_b",
+      "bone": "arm_far_upper",
+      "key": "unit_cleric_arm_far_upper_b_tint",
+      "size": [8, 16],
+      "pivot": [0.25, 2.25],
+      "tint": "secondary"
+    },
+    {
+      "id": "arm_far_upper",
+      "bone": "arm_far_upper",
+      "key": "unit_cleric_arm_far_upper",
+      "size": [8, 16],
+      "pivot": [0.25, 2.25],
       "tint": null
     },
     {
       "id": "hand_far",
       "bone": "hand_far",
       "key": "unit_cleric_hand_far",
-      "size": [
-        11,
-        10
-      ],
-      "pivot": [
-        6,
-        4
-      ],
+      "size": [8, 11],
+      "pivot": [4.62, 4.94],
       "tint": null
     },
     {
-      "id": "alb",
+      "id": "torso_a",
       "bone": "torso",
-      "key": "unit_cleric_alb",
-      "size": [
-        38,
-        64
-      ],
-      "pivot": [
-        19,
-        24
-      ],
-      "tint": null
+      "key": "unit_cleric_torso_a_tint",
+      "size": [38, 48],
+      "pivot": [19.0, 23.38],
+      "tint": "primary"
+    },
+    {
+      "id": "torso_b",
+      "bone": "torso",
+      "key": "unit_cleric_torso_b_tint",
+      "size": [38, 48],
+      "pivot": [19.0, 23.38],
+      "tint": "secondary"
     },
     {
       "id": "torso",
       "bone": "torso",
-      "key": "unit_cleric_torso_tint",
-      "size": [
-        38,
-        49
-      ],
-      "pivot": [
-        19,
-        24
-      ],
-      "tint": "primary"
+      "key": "unit_cleric_torso",
+      "size": [38, 49],
+      "pivot": [19.0, 24.38],
+      "tint": null
     },
     {
-      "id": "orphrey",
-      "bone": "torso",
-      "key": "unit_cleric_orphrey",
-      "size": [
-        12,
-        47
-      ],
-      "pivot": [
-        3,
-        23
-      ],
-      "tint": null
+      "id": "arm_near_upper_a",
+      "bone": "arm_near_upper",
+      "key": "unit_cleric_arm_near_upper_a_tint",
+      "size": [11, 13],
+      "pivot": [3.88, 3.12],
+      "tint": "primary"
     },
     {
       "id": "arm_near_upper",
       "bone": "arm_near_upper",
-      "key": "unit_cleric_arm_near_upper_tint",
-      "size": [
-        17,
-        22
-      ],
-      "pivot": [
-        6,
-        6
-      ],
+      "key": "unit_cleric_arm_near_upper",
+      "size": [11, 13],
+      "pivot": [3.88, 3.12],
+      "tint": null
+    },
+    {
+      "id": "arm_near_lower_a",
+      "bone": "arm_near_lower",
+      "key": "unit_cleric_arm_near_lower_a_tint",
+      "size": [11, 11],
+      "pivot": [3.88, 1.14],
       "tint": "primary"
     },
     {
       "id": "arm_near_lower",
       "bone": "arm_near_lower",
-      "key": "unit_cleric_arm_near_lower_tint",
-      "size": [
-        18,
-        20
-      ],
-      "pivot": [
-        6,
-        6
-      ],
+      "key": "unit_cleric_arm_near_lower",
+      "size": [12, 11],
+      "pivot": [4.88, 1.14],
+      "tint": null
+    },
+    {
+      "id": "hand_near_a",
+      "bone": "hand_near",
+      "key": "unit_cleric_hand_near_a_tint",
+      "size": [11, 11],
+      "pivot": [4.88, 6.46],
       "tint": "primary"
     },
     {
       "id": "hand_near",
       "bone": "hand_near",
       "key": "unit_cleric_hand_near",
-      "size": [
-        11,
-        11
-      ],
-      "pivot": [
-        5,
-        5.5
-      ],
+      "size": [11, 11],
+      "pivot": [4.88, 6.46],
       "tint": null
     },
     {
       "id": "weapon_bow",
       "bone": "hand_near",
       "key": "weapon_bow_held",
-      "size": [
-        34,
-        27
-      ],
-      "pivot": [
-        17,
-        13.5
-      ],
+      "size": [34, 27],
+      "pivot": [17, 13.5],
       "tint": null,
       "slot": {
         "slot": "weapon",
@@ -371,14 +301,8 @@
       "id": "weapon_stone",
       "bone": "hand_near",
       "key": "weapon_stone_held",
-      "size": [
-        14,
-        13
-      ],
-      "pivot": [
-        6,
-        8.5
-      ],
+      "size": [14, 13],
+      "pivot": [6, 8.5],
       "tint": null,
       "slot": {
         "slot": "weapon",
@@ -386,31 +310,11 @@
       }
     },
     {
-      "id": "neck",
-      "bone": "torso",
-      "key": "unit_cleric_neck",
-      "size": [
-        13,
-        10
-      ],
-      "pivot": [
-        5,
-        21
-      ],
-      "tint": null
-    },
-    {
       "id": "head",
       "bone": "head",
-      "key": "unit_cleric_head_01",
-      "size": [
-        28,
-        32
-      ],
-      "pivot": [
-        13,
-        27
-      ],
+      "key": "unit_cleric_head",
+      "size": [28, 22],
+      "pivot": [11.75, 21.0],
       "tint": null
     }
   ],
