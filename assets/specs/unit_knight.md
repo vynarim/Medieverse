@@ -69,7 +69,7 @@ Exactly one figure, centered, full body, on a pure white background. No text, no
 no ground line, no cast shadow.
 ```
 
-Essai du 2026-10-31 : un premier jet à 6 têtes, en marche, fin cerne aquarellé, était illisible à 80 px. Le second, avec les consignes ci-dessus (chibi, cerne épais, pose neutre, gris), tient à 80 px et se découpe : seuls le pied près, tourné vers l'arrière, est à retourner, et les souliers sont à repeindre en Terre d'ombre.
+Essai du 2026-10-31 : un premier jet à 6 têtes, en marche, fin cerne aquarellé, était illisible à 80 px. Le second, avec les consignes ci-dessus (chibi, cerne épais, pose neutre, gris), tient à 80 px et se découpe : seul le pied près, tourné vers l'arrière, est à retourner, et les souliers sont à repeindre en Terre d'ombre.
 
 ### Négatif / à éviter
 Sang, armes brandies, perspective ou trois-quarts, ombres portées, dégradés et éclairage réaliste, texture de parchemin dans le fond, cadre ou lettrine, texte, reproduction d'une miniature précise du manuscrit (ASSETS §1.3), plusieurs personnages, couleurs de maison sur la planche B.
