@@ -125,7 +125,7 @@ La priorité est le moteur : simulation, règles, réseau, IA. Jusqu'au lot 9, t
 | # | Tâche | CA |
 |---|---|---|
 | 7.1 **[art]** | Rigs et animations des 5 autres classes | — Fait le 2026-10-31 en vectoriel (décision de l'utilisateur) : rigs sur le squelette du Chevalier, ses animations empruntées (`anims`), dessins SVG rendus par `pnpm run art` |
-| 7.2 **[art]** | Assets de toutes les armes et VFX P1 | — |
+| 7.2 **[art]** | Assets de toutes les armes et VFX P1 | — Décors, dragon, licorne et bêtes dessinés en vectoriel le 2026-10-31 (`assets/sprites/`) ; armes et VFX restent dessinés par le code |
 | 7.3 **[art]** | Cartes du GDD §10, dont les grandes batailles (Hastings, Azincourt, Pavie…) | Chacune passe `maps:build` et `maps:soak` |
 | 7.3a **[tech]** | Le col enneigé, lot 1 : thème généré, lac gelé et glace (matériau 8), décor du fond et accessoires (GDD §10) | Fait le 2026-10-25 : tests du générateur et de la glace, replay `frozen-lake`, déterminisme vert dans les 4 moteurs |
 | 7.3b **[tech]** | Le col enneigé, lot 2 : avalanche, chien de l'hospice et son tonnelet, neige meuble, neige qui tombe | Replay de référence par mécanique ; `maps:soak` sur le col |

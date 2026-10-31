@@ -52,7 +52,7 @@ import { drawFigure, drawNimbus } from './figures.ts';
 import { KNIGHT_PIECES } from './rig/knight-art.ts';
 import { RigView, rigTextures } from './rig/rig-view.ts';
 import { RIGS, rigSet, type RigSet } from './rig/rigs.ts';
-import { boneOrigin } from './rig/runtime.ts';
+import { boneOrigin, restPose } from './rig/runtime.ts';
 import { AIM_POSE, UnitAnimator, type UnitAnimInput } from './rig/unit-anim.ts';
 import { aimPreviewTicks, classOf, maxHpOf, visibleMines } from '../sim/classes.ts';
 import type { ClassId } from '../content/classes.ts';
@@ -311,6 +311,8 @@ export class BattleScene extends Phaser.Scene {
   private infoRef: ObjectRef | null = null;
   /** a teammate clicked that cannot take the turn: why, over its head, until `until` (ms) */
   private tip: { unitId: number; key: string; until: number } | null = null;
+  /** the figure about to be placed, one per rig, made when first needed */
+  private readonly ghosts = new Map<string, RigView>();
   /** the beast of the margins, once its drawing is loaded */
   private beastImg: Phaser.GameObjects.Image | null = null;
   /**
@@ -387,6 +389,7 @@ export class BattleScene extends Phaser.Scene {
     // The rigs' images went with the old scene's display list.
     this.rigViews.clear();
     this.animators.clear();
+    this.ghosts.clear();
     this.dust = [];
     this.manualCamera = false;
     this.selectedUnit = null;
@@ -2316,12 +2319,18 @@ export class BattleScene extends Phaser.Scene {
    */
   private drawPlacementGhost(g: Phaser.GameObjects.Graphics, time: number): void {
     const v = this.sim.view();
-    if (v.turn.phase !== 'placement') return;
+    if (v.turn.phase !== 'placement') {
+      for (const ghost of this.ghosts.values()) ghost.hide();
+      return;
+    }
     const p = this.input.activePointer;
     const w = this.cameras.main.getWorldPoint(p.x, p.y);
     const x = Math.round(w.x);
     const t = v.terrain;
-    if (x < 0 || x >= t.width) return;
+    if (x < 0 || x >= t.width) {
+      for (const ghost of this.ghosts.values()) ghost.hide();
+      return;
+    }
     let y = 0;
     while (y < t.height && (t.data[y * t.width + x] ?? 0) === 0) y++;
     const faction = FACTIONS[v.turn.activeTeam];
@@ -2332,8 +2341,20 @@ export class BattleScene extends Phaser.Scene {
     // Not on the map yet: its class comes from its house's line-up, by its id.
     const next = v.placing[0];
     const cls = next ? classOf(v, { id: next.unitId, team: next.team }) : null;
-    drawFigure(g, x, y, 1, color, faction?.secondary ?? COLORS.or, cls, false, time);
-    drawClassMark(g, cls, x, y, 1);
+    // The drawn figure at rest, half seen through, as it will stand there.
+    const set = rigOf(cls);
+    let ghost = this.ghosts.get(set.rig.id);
+    if (!ghost) {
+      ghost = new RigView(this, set.rig, RIG_DEPTH);
+      ghost.container.setAlpha(0.75);
+      this.hudCam.ignore(ghost.container);
+      this.ghosts.set(set.rig.id, ghost);
+    }
+    for (const [id, other] of this.ghosts) if (id !== set.rig.id) other.hide();
+    ghost.show(restPose(set.rig), x, y, 1, {
+      primary: color,
+      secondary: faction?.secondary ?? COLORS.or,
+    });
   }
 
   /**

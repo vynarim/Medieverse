@@ -1,10 +1,20 @@
-// The battle's figures as SVG, for the pages outside the battle (the help): the very drawing code
-// of figures.ts and class-marks.ts, played on a small recorder that answers the few Graphics
-// calls they make and writes SVG elements instead of filling a Phaser canvas.
+// The battle's figures as SVG, for the pages outside the battle (the help): the drawn figures of
+// the classes (assets/units/<class>/<class>.svg, the rigs' source) at rest, their house's pieces
+// tinted as the battle tints them; for a class with no drawing, the drawing code of figures.ts
+// and class-marks.ts, played on a small recorder that answers the few Graphics calls they make
+// and writes SVG elements instead of filling a Phaser canvas.
 import type Phaser from 'phaser';
 import type { ClassId } from '../content/classes.ts';
 import { drawClassMark } from './class-marks.ts';
-import { drawFigure } from './figures.ts';
+import { drawFigure, drawNimbus } from './figures.ts';
+import { RIGS } from './rig/rigs.ts';
+
+/** The drawn figures, by path: the very sources the rigs' pieces are cut from. */
+const ART = import.meta.glob<string>('../../assets/units/*/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
 
 type Pt = { readonly x: number; readonly y: number };
 
@@ -155,7 +165,45 @@ export function figureSvg(
 ): string {
   const pen = new SvgPen();
   const g = pen as unknown as Phaser.GameObjects.Graphics;
+  const drawn = drawnFigure(cls, primary, secondary);
+  if (drawn) {
+    // The nimbus round the head, as in the battle, behind the figure.
+    if (active) drawNimbus(g, x + facing * 3, y - 66, 0);
+    return `<g>${pen.parts.join('')}<g transform="translate(${n(x)} ${n(y)}) scale(${facing} 1)">${drawn}</g></g>`;
+  }
   drawFigure(g, x, y, facing, primary, secondary, cls, active, 0);
   drawClassMark(g, cls, x, y, facing);
   return `<g>${pen.parts.join('')}</g>`;
+}
+
+/** A multiply tint in a colour, as Phaser tints the house's pieces. */
+const tintFilter = (c: string): string =>
+  `<filter id="tint-${c.slice(1)}" color-interpolation-filters="sRGB"><feFlood flood-color="${c}"/>` +
+  `<feComposite in2="SourceAlpha" operator="in"/><feBlend in="SourceGraphic" mode="multiply"/></filter>`;
+
+/**
+ * The drawn figure of class `cls` at rest, feet at (0, 0), facing right, its house's pieces in
+ * its tinctures and no weapon in hand; null when the class has no drawing.
+ */
+function drawnFigure(cls: ClassId, primary: number, secondary: number): string | null {
+  const svg = ART[`../../assets/units/${cls}/${cls}.svg`];
+  const rig = RIGS.get(cls)?.rig;
+  if (!svg || !rig) return null;
+  let inner = svg.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+  const p = hex(primary);
+  const s = hex(secondary);
+  for (const pc of rig.pieces) {
+    const open = `<g id="piece-${pc.id}">`;
+    if (pc.slot) {
+      const at = inner.indexOf(open);
+      const end = at < 0 ? -1 : inner.indexOf('</g>', at);
+      if (end >= 0) inner = inner.slice(0, at) + inner.slice(end + 4);
+    } else if (pc.tint) {
+      const c = pc.tint === 'primary' ? p : s;
+      inner = inner.replace(open, `<g filter="url(#tint-${c.slice(1)})">`);
+    } else {
+      inner = inner.replace(open, '<g>');
+    }
+  }
+  return `<defs>${tintFilter(p)}${tintFilter(s)}</defs>${inner}`;
 }
