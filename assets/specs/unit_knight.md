@@ -56,9 +56,11 @@ dans la pose du rig, pour que la découpe tombe juste.
 Medieval manuscript illumination in the style of the Maciejowski Bible (Paris, c. 1250).
 Flat opaque colors, uniform dark brown outlines (#2a1d14) of constant width, minimal shading
 with darker line strokes, no gradients, no perspective.
-Character sheet of the same stocky knight, about three heads tall, strict side view facing
-right, neutral standing pose, legs slightly apart, both arms hanging slightly away from the
-body so that no limb overlaps the torso. Full chainmail hauberk drawn as rows of tiny arcs,
+Character sheet of the same knight in chibi proportions, head as large as the torso, only 3
+heads tall, very thick dark outlines (about 1/40 of the figure's height), head in side view
+facing right, standing still, legs straight and apart, both feet pointing right, both arms
+hanging away from the body, shield held out to the side without covering the arm, so that no
+limb overlaps the torso. Full chainmail hauberk drawn as rows of tiny arcs,
 flat-topped great helm with eye slit and small gold cross, pointed brown leather shoes, empty mailed hands (no weapon).
 IMPORTANT: the surcoat, the belt and the almond-shaped shield are painted ONLY in neutral
 light greys (no color at all), with the folds drawn as darker grey strokes; the shield is
@@ -66,6 +68,8 @@ plain grey with a slightly darker grey chevron. All other colors: grey iron, gol
 Exactly one figure, centered, full body, on a pure white background. No text, no frame,
 no ground line, no cast shadow.
 ```
+
+Essai du 2026-10-31 : un premier jet à 6 têtes, en marche, fin cerne aquarellé, était illisible à 80 px. Le second, avec les consignes ci-dessus (chibi, cerne épais, pose neutre, gris), tient à 80 px et se découpe : seuls le pied près, tourné vers l'arrière, est à retourner, et les souliers sont à repeindre en Terre d'ombre.
 
 ### Négatif / à éviter
 Sang, armes brandies, perspective ou trois-quarts, ombres portées, dégradés et éclairage réaliste, texture de parchemin dans le fond, cadre ou lettrine, texte, reproduction d'une miniature précise du manuscrit (ASSETS §1.3), plusieurs personnages, couleurs de maison sur la planche B.
