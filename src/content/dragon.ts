@@ -36,7 +36,8 @@ export interface DragonRules {
 }
 
 export const DRAGON_RULES: DragonRules = {
-  spawnPermille: 120,
+  // 2026-11-01, on playtest (it came too often): was 120.
+  spawnPermille: 50,
   speed: 2 * 256,
   diveSpeed: 12 * 256,
   clearance: 100,
