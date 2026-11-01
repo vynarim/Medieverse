@@ -54,7 +54,7 @@ Un chroniqueur à l'humour douteux commente la partie {{st:jeu}} : chaque tour s
 - Un combattant **touché pendant son propre tour** termine son tour aussitôt.
 - **Le tir ami existe** : une flèche ou une explosion blesse aussi vos propres combattants, et vous-même.
 - **Vous choisissez qui joue** : le jeu propose un combattant, mais un clic sur un autre de vos combattants (sur lui ou sur son nom), ou le bouton **Combattant** (deux flèches opposées), lui donne la main, tant que personne n'a encore bougé ni tiré ce tour (viser ne compte pas). Ensuite, sa fiche indique « la maison a déjà bougé ou tiré ce tour ». En revanche, le combattant qui a joué le tour précédent de votre maison **souffle** : il ne peut pas rejouer tout de suite (sa fiche l'indique), sauf s'il est le dernier debout.
-- **Préparez votre tour pendant celui des autres** : cliquez sur l'un de vos combattants, puis **Préparer une arme…** sur sa fiche. Au début du tour de votre maison, ce combattant prend la main avec cette arme (s'il le peut encore : celui qui souffle ne rejoue pas). D'ici là, l'arme préparée ne sert à rien et ne protège de rien.
+- **Préparez votre tour pendant celui des autres** : appuyez sur **Arsenal** (il prépare votre prochain combattant à jouer), ou cliquez sur l'un de vos combattants, puis **Préparer une arme…** sur sa fiche. Au début du tour de votre maison, ce combattant prend la main avec cette arme (s'il le peut encore : celui qui souffle ne rejoue pas). D'ici là, l'arme préparée ne sert à rien et ne protège de rien.
 - Les morts sont constatées à la fin de la résolution : un combattant à 0 PV ne tombe qu'une fois que tout s'est arrêté.
 
 ## 3. Vos combattants
@@ -336,7 +336,7 @@ Les boutons portent des icônes dessinées. Sur PC et tablette, leur nom est éc
 
 En bas à droite, les armes :
 
-- **Arsenal** : la liste des armes avec leurs dégâts, leur rayon, leur sensibilité au vent et les munitions restantes ; un clic choisit l'arme ;
+- **Arsenal** : une petite carte par arme, avec son dessin, ses dégâts et ses munitions restantes ; le **?** de la carte montre le reste (description, rayon, vent, effets) au survol, ou d'un clic ; un clic sur la carte choisit l'arme ;
 - **Mèche** (un pot à la mèche allumée) : visible avec les armes à mèche ; chaque appui passe à la valeur suivante (1 à 5 secondes, ou 1 à 3 tours pour le feu grégeois ; pour le mur, sa longueur de 1 à 3) ;
 - **Combattant** : donner la main au combattant suivant de votre maison, avant d'avoir bougé ou tiré ;
 - **Passer** (le sablier) : finir son tour sans tirer ; après le tir, il devient **Fin du tour** ;

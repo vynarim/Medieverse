@@ -13,7 +13,16 @@ import { Hud } from './hud.ts';
 import { renderTutorial } from './tutorial.ts';
 import { houseShortName } from './house-names.ts';
 import { t } from './i18n.ts';
-import { button, el, holdButton, measureBars, shield, uiRoot, watchBar } from './overlay.ts';
+import {
+  button,
+  el,
+  holdButton,
+  measureBars,
+  shield,
+  tipButton,
+  uiRoot,
+  watchBar,
+} from './overlay.ts';
 import { setIcon } from './icons.ts';
 import { MAX_POWER } from '../sim/commands.ts';
 import { COLORS, css } from './tokens.ts';
@@ -235,7 +244,13 @@ export class GameUi {
       )),
     );
     // The arsenal button wears the playing unit's weapon, right of its name.
+    // While another house plays, it prepares the weapon of the player's next unit (GDD §2).
     this.arsenalButton = this.click(button('', 'arsenal'), () => {
+      const next = this.view ? this.unitToPrepare(this.view) : null;
+      if (next !== null && this.open !== this.arsenal) {
+        this.prepareFor(next);
+        return;
+      }
       this.preparing = null;
       this.toggle(this.arsenal);
     });
@@ -599,6 +614,11 @@ export class GameUi {
     // A flaming pig let loose: Fire sets it off, after the shot too.
     const pig = view.walkers.some((w) => w.ownerId === view.turn.activeUnitId);
     for (const b of this.actionButtons) {
+      // Another house plays: the arsenal prepares the player's next turn.
+      if (b === this.arsenalButton && !ours) {
+        b.disabled = this.unitToPrepare(view) === null;
+        continue;
+      }
       const when = b.dataset.when;
       // Not the player's house (the AI's, or online the other player's): nothing to press.
       b.disabled =
@@ -679,6 +699,26 @@ export class GameUi {
     this.opts.intents.selectWeapon = p.weapon;
   }
 
+  /**
+   * While another house plays, the player's unit whose weapon the arsenal prepares: the one
+   * prepared already, else the next of the player's house to play; null on the player's turn.
+   */
+  private unitToPrepare(v: SimView): number | null {
+    if (v.turn.phase === 'gameOver' || this.mine(v.turn.activeTeam)) return null;
+    const alive = (id: number | undefined): boolean => v.units.some((u) => u.id === id && u.alive);
+    for (const team of v.teams) {
+      if (!this.mine(team.id)) continue;
+      const prep = this.prepared.get(team.id);
+      if (prep && alive(prep.unitId)) return prep.unitId;
+      const n = team.unitIds.length;
+      for (let i = 1; i <= n; i++) {
+        const id = team.unitIds[(team.lastPlayed + i) % n];
+        if (id !== undefined && alive(id)) return id;
+      }
+    }
+    return null;
+  }
+
   /** Opens the arsenal to prepare the weapon of unit `unitId`, one of the player's. */
   private prepareFor(unitId: number): void {
     this.preparing = unitId;
@@ -712,14 +752,33 @@ export class GameUi {
       const b = button('', `weapon${w.id === chosen ? ' on' : ''}`);
       const art = el('span', 'art');
       art.innerHTML = weaponArt(w.id, 60);
-      b.append(art, el('b', '', t(`weapons.${w.id}`)));
-      // On a phone held upright only the ammo and why a weapon is greyed stay (class `keep`).
-      for (const line of weaponLines({ ...w, ammo }))
-        b.append(el('small', line.startsWith(t('weapon.ammo')) ? 'keep' : '', line));
+      // The card: drawing, name, damage and ammo left; the details behind « ? ».
+      const stats = el('span', 'stats');
+      const stat = (label: string, value: string): void => {
+        const s = el('span', '', value);
+        s.prepend(el('i', '', label));
+        stats.append(s);
+      };
+      if (w.damage > 0) stat(t('weapon.damage'), String(w.damage));
+      stat(t('weapon.ammo'), ammo < 0 ? '∞' : String(ammo));
+      const name = t(`weapons.${w.id}`);
+      b.append(
+        art,
+        el('b', '', name),
+        stats,
+        tipButton(() => [
+          el('b', '', name),
+          ...weaponLines({ ...w, ammo }).map((line) => el('small', '', line)),
+        ]),
+      );
       if (!allowed)
         b.append(el('small', 'keep', t(w.engine ? 'weapons.needEngine' : 'weapons.forbidden')));
-      b.disabled = ammo === 0 || !allowed || (!preparing && v.turn.phase !== 'action');
+      // Greyed rather than disabled: its « ? » still answers the mouse and the finger.
+      const off = ammo === 0 || !allowed || (!preparing && v.turn.phase !== 'action');
+      b.classList.toggle('off', off);
+      b.setAttribute('aria-disabled', String(off));
       b.addEventListener('click', () => {
+        if (off) return;
         if (preparing) {
           this.prepared.set(teamId, { unitId: prepUnit.id, weapon: w.id });
           this.cardSignature = '';

@@ -192,14 +192,20 @@ const STYLE = `
    shows at once. */
 #ui:not(.phone) .armoury { width: min(1600px, calc(100vw - 48px)); max-width: none; }
 #ui .modal button { touch-action: pan-y; }
-#ui .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; }
-#ui .weapon { text-align: left; display: block; width: 100%; padding: 10px 12px; font-family: var(--text); }
+#ui .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+/* A small card per weapon: its drawing, its name, its damage and ammo; the rest behind « ? ». */
+#ui .weapon { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  width: 100%; padding: 12px 10px 10px; text-align: center; font-family: var(--text); }
 #ui .weapon b { display: block; font-family: var(--caps); font-weight: normal; font-size: 20px;
   margin-bottom: 4px; color: var(--lapis); }
 #ui .weapon small { display: block; font-size: 15px; line-height: 1.35; }
 #ui .weapon.on { box-shadow: inset 0 0 0 3px var(--vermillon); }
-#ui .weapon .art { float: right; margin: 0 0 4px 8px; line-height: 0; }
-#ui .weapon:disabled .art { filter: grayscale(1); }
+#ui .weapon .art { line-height: 0; }
+#ui .weapon .stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 12px; font-size: 18px; }
+#ui .weapon .stats span { white-space: nowrap; }
+#ui .weapon .stats i { font-style: normal; font-size: 14px; opacity: 0.75; margin-right: 4px; }
+#ui .weapon.off { opacity: 0.4; cursor: default; background: var(--velin); transform: none; filter: grayscale(1); }
+#ui .weapon.off:hover, #ui .weapon.off:active { background: var(--velin); transform: none; }
 #ui .card { position: absolute; right: 12px; top: 182px; width: var(--col);
   max-height: calc(100% - 290px); overflow: auto; padding: 14px 18px; font-size: 16px; line-height: 1.4; }
 #ui .card.left { right: auto; left: 12px; top: 250px; max-height: calc(100% - 358px); }
@@ -286,6 +292,13 @@ const STYLE = `
   padding: 10px 16px 12px; font-family: var(--text); font-size: 19px; line-height: 1.4; text-align: left;
   border-radius: 14px; }
 #ui .info-bubble a { color: var(--lapis); }
+#ui .info-bubble b { display: block; font-family: var(--caps); font-weight: normal; font-size: 20px; color: var(--lapis); }
+#ui .info-bubble small { display: block; font-size: 16px; line-height: 1.4; }
+#ui .info-bubble small:first-of-type { margin-bottom: 4px; font-style: italic; }
+#ui .tip-q { position: absolute; top: 6px; right: 6px; display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%; font-family: var(--text); font-size: 18px; font-weight: bold; line-height: 1;
+  color: var(--lapis); background: var(--ceruse); border: 2px solid var(--azur); cursor: help; }
+#ui .tip-q:hover { background: var(--azur); color: var(--ceruse); }
 
 /* A phone held upright: one column, the flavour folded, the HUD packed into the corners, and
    the battlefield above the action bar (--bar-h, set by watchBar), never under it. */
@@ -323,9 +336,8 @@ html.phone #game { height: calc(100% - var(--bar-h, 0px)); }
 #ui.phone .card, #ui.phone .card.left { left: 12px; right: 12px; width: auto; top: auto;
   bottom: calc(var(--bar-h, 0px) + 80px);
   max-height: 40vh; }
-#ui.phone .armoury .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
-#ui.phone .weapon { padding: 8px; text-align: center; }
-#ui.phone .weapon .art { float: none; display: block; margin: 0 auto 4px; }
+#ui.phone .armoury .grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+#ui.phone .weapon { padding: 8px; }
 #ui.phone .weapon b { font-size: 18px; }
 #ui.phone .weapon small:not(.keep) { display: none; }
 #ui.phone .pause { min-width: 0; width: calc(100vw - 32px); }
@@ -495,6 +507,38 @@ export function infoButton(content: () => readonly (string | Node)[]): HTMLEleme
       return;
     }
     openBubble(q, content());
+  });
+  return q;
+}
+
+/**
+ * A « ? » always shown, whose explanation opens in a bubble while the mouse rests on it, or on a
+ * click (a tap) that keeps it open until the next click or a press elsewhere. A span, so that it
+ * can sit inside a button: its click does not reach the button.
+ */
+export function tipButton(content: () => readonly (string | Node)[]): HTMLElement {
+  const q = el('span', 'tip-q', '?');
+  q.setAttribute('role', 'button');
+  q.setAttribute('aria-label', t('ui.info'));
+  let pinned = false;
+  q.addEventListener('pointerenter', (e) => {
+    if (e.pointerType !== 'mouse' || bubble?.anchor === q) return;
+    pinned = false;
+    openBubble(q, content());
+  });
+  q.addEventListener('pointerleave', (e) => {
+    if (e.pointerType === 'mouse' && !pinned && bubble?.anchor === q) closeBubble();
+  });
+  q.addEventListener('click', (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (bubble?.anchor === q && pinned) {
+      pinned = false;
+      closeBubble();
+      return;
+    }
+    pinned = true;
+    if (bubble?.anchor !== q) openBubble(q, content());
   });
   return q;
 }
