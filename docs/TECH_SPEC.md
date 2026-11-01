@@ -111,8 +111,9 @@ export interface Sim {
   2. `render` applique la même forme en `destination-out` sur les tuiles concernées.
   3. Il peint un liseré « vélin déchiré » (texture de bord brûlé ou ocre) en contour, via un pass `source-atop` avec un anneau de r à r+6 px.
 - Pierres posées : sprite de pierre taillée tamponné sur la tuile, avec écriture du masque à 3.
-- Le rendu ne relit jamais le masque pour décider de la physique. Il le lit en revanche pour l'affichage : après un creusement, il efface des tuiles exactement les pixels que le masque a passés à l'air, ce qui garantit l'alignement au pixel près.
-- Tuiles en `CLAMP_TO_EDGE` et filtrage `NEAREST`, contexte WebGL créé sans antialiasing (`antialiasGL: false`) : sans cela, les bords des tuiles se mélangent et dessinent des lignes fines aux jointures (constaté au greybox, M2).
+- Le rendu ne relit jamais le masque pour décider de la physique. Il le lit en revanche pour l'affichage : après un creusement, il repeint la zone autour à partir du masque, ce qui garantit l'alignement des aplats au pixel près.
+- **Traits vectoriels** (2026-11-01) : les aplats (strates, appareil, planches) sont remplis pixel par pixel depuis le masque ; les traits sont antialiasés. Les liserés d'encre et de blanc des strates sont calculés depuis leur courbe, mesurés perpendiculairement ; le bas de l'herbe suit la surface moyennée sur 5 colonnes. Le cerne d'encre (3,6 px) suit le contour du sol tracé par *marching squares* et déborde d'environ 1,8 px sur l'air ; le liseré des rochers (2,6 px) suit leur contour ; les brins d'herbe sont des courbes posées en `source-atop` sur le sol. Repeindre un cratère de 60 px coûte environ 3 à 4 ms (Chromium headless).
+- Tuiles en `CLAMP_TO_EDGE`, filtrage `LINEAR` depuis le 2026-11-01 (les traits antialiasés restent lisses sous le zoom ; `NEAREST` avant), contexte WebGL créé sans antialiasing (`antialiasGL: false`). Chaque tuile déborde d'1 px sur ses voisines de droite et du dessous : sans ce recouvrement, le filtrage linéaire laissait voir un fil clair aux jointures.
 
 ### 4.4 Couches de scène (du fond vers l'avant)
 1. Fond or ou fond diapré (motif losangé), statique.
