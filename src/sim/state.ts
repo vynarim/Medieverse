@@ -102,6 +102,8 @@ export interface FlyingShot {
   readonly damagePct?: number;
   /** the falcon: px of the point it steers for */
   readonly homing?: { readonly x: number; readonly y: number };
+  /** the falcon: BAM it heads for, the wind aside (HomingDef.ownHeading); absent: none yet */
+  heading?: number;
   /** units a piercing bolt has gone through, sorted (the ballista) */
   pierced?: number[];
 }

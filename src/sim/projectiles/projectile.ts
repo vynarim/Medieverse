@@ -22,8 +22,13 @@ export interface Projectile {
   readonly windPct: number;
   /** percent of gravity applied */
   readonly gravityPct: number;
-  /** true once the projectile no longer overlaps its owner */
+  /** true once the projectile no longer overlaps its owner (nor the allies of passThrough) */
   clearOfOwner: boolean;
+  /**
+   * allies standing against the shooter when it fired, sorted: the shot goes through them as
+   * through the shooter, until it is clear of them all (UnitRules.shotsPassAllies)
+   */
+  passThrough?: readonly number[];
   /** ticks since launch */
   age: number;
 }
@@ -131,7 +136,7 @@ export function stepProjectile(
     for (const u of units) {
       if (!u.alive || !touchesUnit(u, p.x, p.y, p.radius)) continue;
       if (skip?.includes(u.id)) continue;
-      if (u.id === p.ownerId && !p.clearOfOwner) {
+      if ((u.id === p.ownerId || p.passThrough?.includes(u.id)) && !p.clearOfOwner) {
         overlapsOwner = true;
         continue;
       }

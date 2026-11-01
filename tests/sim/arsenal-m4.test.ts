@@ -510,6 +510,73 @@ describe('falcon (GDD §4.1)', () => {
     };
     expect(land(3)).toBeGreaterThan(land(0));
   });
+
+  it('still reaches its point against the wind, steering from its own heading', () => {
+    const land = (rules: MatchRules): number => {
+      const sim = match(rules, 300, [1100]);
+      (sim.view() as { turn: { wind: number } }).turn.wind = -5;
+      const events = run(
+        sim,
+        [
+          { t: 'selectWeapon', id: 'falcon' },
+          { t: 'fireAt', x: 800, y: 460 },
+        ],
+        400,
+      );
+      const e = events.find((x) => x.e === 'explosion');
+      return e && e.e === 'explosion' ? e.x >> 8 : -1;
+    };
+    expect(Math.abs(land(CALM) - 800)).toBeLessThan(10);
+    // Logs recorded before: it steered from its drifted course and flew off downwind.
+    const older: MatchRules = {
+      ...CALM,
+      weapons: CALM.weapons.map((w) => {
+        if (!w.homing) return w;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { ownHeading, ...homing } = w.homing;
+        return { ...w, homing };
+      }),
+    };
+    expect(land(older)).toBeLessThan(300);
+  });
+});
+
+describe('allies against the shooter (2026-11-01)', () => {
+  it('lets the shot go through an ally standing half over the shooter', () => {
+    const hp = (rules: MatchRules): number => {
+      const sim = new Sim(
+        { rules, teams: [{ spawns: [300, 314] }, { spawns: [1000] }] },
+        2,
+        flatMask(),
+      );
+      for (let i = 0; i < 1000 && sim.view().turn.phase !== 'action'; i++) sim.step();
+      // The shooter on the left, its ally pressed against it on the right.
+      const shooter = sim.view().turn.activeUnitId;
+      const snap = sim.snapshot();
+      const ally = snap.units.find((u) => u.team === 0 && u.id !== shooter);
+      const me = snap.units.find((u) => u.id === shooter);
+      if (!ally || !me) throw new Error('no units');
+      me.x = 300 * 256;
+      ally.x = 314 * 256;
+      sim.restore(snap);
+      run(
+        sim,
+        [
+          { t: 'selectWeapon', id: 'bow' },
+          { t: 'aim', angle: 4040 },
+          { t: 'fire', power: 1024 },
+        ],
+        240,
+      );
+      return unit(sim, ally.id)?.hp ?? 0;
+    };
+    const start = CALM.startHp;
+    expect(hp(CALM)).toBe(start);
+    // Logs recorded before: the ally took the arrow.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { shotsPassAllies, ...unitRules } = CALM.unit;
+    expect(hp({ ...CALM, unit: unitRules })).toBeLessThan(start);
+  });
 });
 
 describe('grapple (GDD §4.4)', () => {

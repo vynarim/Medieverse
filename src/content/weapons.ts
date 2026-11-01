@@ -182,6 +182,13 @@ export interface HomingDef {
   readonly ticks: number;
   /** px: farthest from the unit the point may be with the gauge (a click goes anywhere) */
   readonly reach: number;
+  /**
+   * It steers from its own heading, the wind only pushing its flight aside (2026-11-01, on
+   * playtest: it steered from its drifted course, and a wind of 5 or more turned it faster than it
+   * could turn back, so it flew off downwind, away from its point). Absent from older logs: from
+   * its drifted course.
+   */
+  readonly ownHeading?: boolean;
 }
 
 /** Grappin (GDD §4.4): a rope shot at the ground above, to swing from, let go and shoot again. */
@@ -505,7 +512,15 @@ export const WEAPONS: readonly WeaponDef[] = [
     bouncePct: 0,
     defaultFuse: 0,
     ammo: 1,
-    homing: { speed: 8 * 256, turn: 80, rise: 16, windDrift: 64, ticks: 6 * 60, reach: 1200 },
+    homing: {
+      speed: 8 * 256,
+      turn: 80,
+      rise: 16,
+      windDrift: 64,
+      ticks: 6 * 60,
+      reach: 1200,
+      ownHeading: true,
+    },
   },
   {
     id: 'trebuchet',

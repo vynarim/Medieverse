@@ -1104,6 +1104,8 @@ function hashState(s: SimState): number {
   for (const shot of s.shots) {
     const p = shot.projectile;
     for (const v of [p.id, p.ownerId, p.x, p.y, p.vx, p.vy, p.age, p.clearOfOwner ? 1 : 0]) int(v);
+    // Only set with rules.unit.shotsPassAllies: older hashes stay the same.
+    if (p.passThrough) for (const v of [-3, ...p.passThrough]) int(v);
     int(weaponIndexIn(s.rules, shot.weapon));
     int(shot.fuse);
     // Only fragments carry the flag, so logs without cluster weapons keep their hashes.
@@ -1112,6 +1114,8 @@ function hashState(s: SimState): number {
     if (shot.damagePct !== undefined) int(shot.damagePct);
     if (shot.homing) for (const v of [shot.homing.x, shot.homing.y]) int(v);
     if (shot.pierced) for (const v of [-2, ...shot.pierced]) int(v);
+    // Only set with HomingDef.ownHeading: older hashes stay the same.
+    if (shot.heading !== undefined) int(shot.heading);
   }
   int(s.explosions.items.length);
   int(s.explosions.nextSeq);

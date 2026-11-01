@@ -24,6 +24,7 @@ import { carveCircle, isSolid } from '../terrain/terrain.ts';
 import {
   bounce,
   createProjectile,
+  type Projectile,
   stepProjectile,
   touchesUnit,
 } from '../projectiles/projectile.ts';
@@ -131,14 +132,14 @@ export function fire(
     // The falcon rises from the unit's shoulder, then steers for the point.
     const p = at ?? targetFor(state, u, def, power);
     const cy = u.y - (UNIT_HEIGHT * SUBPX) / 2;
-    const projectile = createProjectile(
-      id,
-      u.id,
-      u.x,
-      cy - MUZZLE_DISTANCE * SUBPX,
-      0,
-      -def.homing.speed,
-      { radius: def.projectileRadius, windPct: 0, gravityPct: 0 },
+    const projectile = alongside(
+      state,
+      u,
+      createProjectile(id, u.id, u.x, cy - MUZZLE_DISTANCE * SUBPX, 0, -def.homing.speed, {
+        radius: def.projectileRadius,
+        windPct: 0,
+        gravityPct: 0,
+      }),
     );
     state.shots.push({
       projectile,
@@ -190,25 +191,33 @@ export function fire(
   for (let k = -half; k <= burst - 1 - half; k++) {
     if (k === 0) continue;
     const a = (angle + k * (def.burst?.spread ?? 0)) & ANGLE_MASK;
-    const bolt = createProjectile(
-      state.nextEntityId++,
-      u.id,
-      start.x,
-      start.y,
-      mulQ14(speed, cosQ14(a)),
-      mulQ14(speed, sinQ14(a)),
-      { radius: def.projectileRadius, windPct: def.windPct, gravityPct: 100 },
+    const bolt = alongside(
+      state,
+      u,
+      createProjectile(
+        state.nextEntityId++,
+        u.id,
+        start.x,
+        start.y,
+        mulQ14(speed, cosQ14(a)),
+        mulQ14(speed, sinQ14(a)),
+        { radius: def.projectileRadius, windPct: def.windPct, gravityPct: 100 },
+      ),
     );
     state.shots.push({ projectile: bolt, weapon: def.id, fuse: 0, ...damagePct });
   }
-  const projectile = createProjectile(
-    id,
-    u.id,
-    start.x,
-    start.y,
-    mulQ14(speed, cosQ14(angle)),
-    mulQ14(speed, sinQ14(angle)),
-    { radius: def.projectileRadius, windPct: def.windPct, gravityPct: 100 },
+  const projectile = alongside(
+    state,
+    u,
+    createProjectile(
+      id,
+      u.id,
+      start.x,
+      start.y,
+      mulQ14(speed, cosQ14(angle)),
+      mulQ14(speed, sinQ14(angle)),
+      { radius: def.projectileRadius, windPct: def.windPct, gravityPct: 100 },
+    ),
   );
   if (burst > 1) state.shots.sort((a, b) => a.projectile.id - b.projectile.id);
   const fused = def.behavior === 'fusedBouncer' || def.behavior === 'cluster';
@@ -232,6 +241,26 @@ export function fire(
   }
   events.push({ e: 'shotFired', shotId: id, weapon: def.id });
   return true;
+}
+
+/**
+ * The shot of u, made to go through the allies standing against u (their bodies overlap), as it
+ * goes through u (rules.unit.shotsPassAllies).
+ */
+function alongside(state: SimState, u: Unit, p: Projectile): Projectile {
+  if (state.rules.unit.shotsPassAllies !== true) return p;
+  const ids: number[] = [];
+  for (const o of state.units) {
+    if (o.id === u.id || !o.alive || o.team !== u.team) continue;
+    if (
+      Math.abs(o.x - u.x) < 2 * UNIT_HALF_WIDTH * SUBPX &&
+      Math.abs(o.y - u.y) < UNIT_HEIGHT * SUBPX
+    ) {
+      ids.push(o.id);
+    }
+  }
+  if (ids.length > 0) p.passThrough = ids;
+  return p;
 }
 
 /**
@@ -583,7 +612,7 @@ function steer(state: SimState, shot: FlyingShot, h: HomingDef): void {
   const to = shot.homing;
   if (!to || p.age < h.rise) return;
   const want = atan2Bam(to.y * SUBPX + SUBPX / 2 - p.y, to.x * SUBPX + SUBPX / 2 - p.x);
-  const now = atan2Bam(p.vy, p.vx);
+  const now = shot.heading ?? atan2Bam(p.vy, p.vx);
   const d = angleDelta(now, want);
   let a = (now + Math.max(-h.turn, Math.min(h.turn, d))) & ANGLE_MASK;
   // Ground ahead: it veers off, the higher way first, to fly round it; not when it is upon its
@@ -604,6 +633,7 @@ function steer(state: SimState, shot: FlyingShot, h: HomingDef): void {
       }
     }
   }
+  if (h.ownHeading === true) shot.heading = a;
   p.vx = mulQ14(h.speed, cosQ14(a)) + state.turn.wind * h.windDrift;
   p.vy = mulQ14(h.speed, sinQ14(a));
 }

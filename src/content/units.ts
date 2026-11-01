@@ -61,6 +61,12 @@ export interface UnitRules {
    */
   readonly jumpCeilingOnly?: boolean;
   /**
+   * A shot goes through the allies standing against the shooter when it fires, as it goes
+   * through the shooter, until it is clear of them (2026-11-01, on playtest: an ally half over
+   * the shooter took the shot full in the face). Absent from older logs: it strikes them.
+   */
+  readonly shotsPassAllies?: boolean;
+  /**
    * px of walk that still leave the jump: a step taken by mistake (turning round costs nothing
    * already) does not cost the turn its jump (2026-10-25). Absent from older logs: any walk does.
    */
@@ -120,6 +126,7 @@ export const UNIT_RULES: UnitRules = {
   jumpKeepsSpeed: true,
   jumpHeadroom: 40,
   jumpCeilingOnly: true,
+  shotsPassAllies: true,
   jumpGrace: 20,
   turnTicks: 12,
   climbSpeed: 256,
