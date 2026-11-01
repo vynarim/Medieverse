@@ -53,6 +53,14 @@ export interface UnitRules {
    */
   readonly jumpHeadroom?: number;
   /**
+   * The room to jump is a ceiling over the head, not a rock beside the shoulders: the headroom
+   * is looked for above the head only, and a rising unit whose flank catches a bulging rock is
+   * slid aside to keep rising, as long as nothing lies over its head (2026-11-01, on playtest: a
+   * unit against a round boulder could neither walk on nor jump). Absent from older logs: the
+   * whole body must rise free, and the first touch stops the rise.
+   */
+  readonly jumpCeilingOnly?: boolean;
+  /**
    * px of walk that still leave the jump: a step taken by mistake (turning round costs nothing
    * already) does not cost the turn its jump (2026-10-25). Absent from older logs: any walk does.
    */
@@ -111,6 +119,7 @@ export const UNIT_RULES: UnitRules = {
   slopeTakeoff: true,
   jumpKeepsSpeed: true,
   jumpHeadroom: 40,
+  jumpCeilingOnly: true,
   jumpGrace: 20,
   turnTicks: 12,
   climbSpeed: 256,

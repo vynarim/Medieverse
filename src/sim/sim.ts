@@ -24,6 +24,7 @@ import { drownFlames, flamesTurnEnd, flamesTurnStart, spawnFlames, stepFlames } 
 import {
   atRest,
   bodyFree,
+  headFree,
   createUnit,
   jump,
   release,
@@ -412,7 +413,8 @@ function headroom(s: SimState, u: Unit): boolean {
   if (room === undefined) return true;
   const px = subToPx(u.x);
   const py = subToPx(u.y);
-  for (let k = 1; k <= room; k++) if (!bodyFree(s.terrain, px, py - k)) return false;
+  const free = unitRulesOf(s, u).jumpCeilingOnly === true ? headFree : bodyFree;
+  for (let k = 1; k <= room; k++) if (!free(s.terrain, px, py - k)) return false;
   return true;
 }
 

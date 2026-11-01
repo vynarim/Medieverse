@@ -103,6 +103,12 @@ export function bodyFree(t: Terrain, px: number, py: number): boolean {
   return true;
 }
 
+/** True when nothing solid lies at the top of the head of a unit standing at (px, py). */
+export function headFree(t: Terrain, px: number, py: number): boolean {
+  for (const [dx, dy] of HEAD) if (isSolid(t, px + dx, py + dy)) return false;
+  return true;
+}
+
 /** True when ground lies right under the feet at (px, py). */
 export function supported(t: Terrain, px: number, py: number): boolean {
   for (const dx of FOOT_COLUMNS) if (isSolid(t, px + dx, py)) return true;
@@ -308,7 +314,13 @@ export function stepUnitPhysics(u: Unit, t: Terrain, rules: UnitRules): PhysicsR
         u.y = ny;
         if (subToPx(ny) < u.airPeakY) u.airPeakY = subToPx(ny);
       } else if (dy < 0) {
-        u.vy = 0; // ceiling
+        // Only a flank caught on a bulging rock, nothing over the head: slid aside, it rises on.
+        const aside =
+          rules.jumpCeilingOnly === true &&
+          headFree(t, npx, subToPx(ny)) &&
+          nudge(u, t, subToPx(ny));
+        if (aside && subToPx(ny) < u.airPeakY) u.airPeakY = subToPx(ny);
+        if (!aside) u.vy = 0; // ceiling
       } else if (!nudge(u, t, subToPx(ny))) {
         // Wedged in a crevice: treat as a landing.
         if (land(u, rules, res)) break;
@@ -323,7 +335,7 @@ export function stepUnitPhysics(u: Unit, t: Terrain, rules: UnitRules): PhysicsR
 /** px: how far a falling unit may be pushed sideways out of a narrow gap */
 const MAX_NUDGE = 3;
 
-/** Shifts a falling unit sideways (toward its motion first) so it can go down to row ny. */
+/** Shifts a moving unit sideways (toward its motion first) so it can go on to row ny. */
 function nudge(u: Unit, t: Terrain, ny: number): boolean {
   const px = subToPx(u.x);
   const first = u.vx < 0 ? -1 : 1;

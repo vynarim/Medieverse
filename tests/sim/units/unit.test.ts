@@ -272,6 +272,36 @@ describe('jumps', () => {
     expect(px(old.x)).toBeLessThan(px(u.x));
   });
 
+  it('rises along a round boulder at its side and over it', () => {
+    // Flat ground at 250, a boulder of radius 36 sitting on it round x = 300.
+    const t = terrainFrom(800, 300, () => 250);
+    for (let y = 178; y < 250; y++) {
+      for (let x = 260; x < 340; x++) {
+        if ((x - 300) ** 2 + (y - 214) ** 2 <= 36 * 36) t.data[y * 800 + x] = Material.Rock;
+      }
+    }
+    const against = (rules: typeof UNIT_RULES): Unit => {
+      const u = standingUnit(t, 420);
+      for (let i = 0; i < 400 && u.grounded; i++) {
+        if (walk(u, t, -1, rules) === 'blocked') break;
+        stepUnitPhysics(u, t, rules);
+      }
+      return u;
+    };
+    const u = against(UNIT_RULES);
+    expect(px(u.x)).toBeGreaterThan(336);
+    jump(u, 'forward', UNIT_RULES);
+    for (let i = 0; i < 2000 && !stepUnitPhysics(u, t, UNIT_RULES).landed; i++);
+    expect(px(u.x)).toBeLessThan(330);
+    // Logs recorded before: the first touch of the flank stops the rise, and the unit drops back.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { jumpCeilingOnly, ...oldRules } = UNIT_RULES;
+    const old = against(oldRules);
+    jump(old, 'forward', oldRules);
+    for (let i = 0; i < 2000 && !stepUnitPhysics(old, t, oldRules).landed; i++);
+    expect(px(old.x)).toBeGreaterThan(336);
+  });
+
   it('stops against a wall in mid-air', () => {
     const t = terrainFrom(600, 300, (x) => (x >= 330 ? 100 : 250));
     const u = standingUnit(t, 300);

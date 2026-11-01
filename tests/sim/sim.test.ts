@@ -389,6 +389,32 @@ describe('turn loop', () => {
     expect(v.turn.phase).toBe('action');
   });
 
+  it('lets a unit jump with a round boulder bulging beside its shoulders', () => {
+    // A boulder of radius 40 on the ground round x = 320; unit 1 stands against its right side.
+    const mask = flatMask();
+    for (let y = 420; y < 500; y++) {
+      for (let x = 280; x < 360; x++) {
+        if ((x - 320) ** 2 + (y - 460) ** 2 <= 40 * 40) mask.data[y * 1200 + x] = Material.Rock;
+      }
+    }
+    const refused = (rules: MatchConfig['rules']): boolean => {
+      const sim = new Sim(
+        { ...DUEL, rules, teams: [{ spawns: [380] }, { spawns: [900] }] },
+        1,
+        mask,
+      );
+      for (let i = 0; i < 2000 && sim.view().turn.phase !== 'action'; i++) sim.step();
+      for (let i = 0; i < 60; i++) sim.step([{ t: 'move', dir: -1 }]);
+      sim.step([{ t: 'move', dir: 0 }]);
+      return sim.step([{ t: 'jump', kind: 'forward' }]).some((e) => e.e === 'jumpRefused');
+    };
+    expect(refused(DUEL.rules)).toBe(false);
+    // Logs recorded before: the whole body had to rise free, and the bulge refused the jump.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { jumpCeilingOnly, ...unit } = DUEL.rules.unit;
+    expect(refused({ ...DUEL.rules, unit })).toBe(true);
+  });
+
   it('rotates through the units of each team', () => {
     const config: MatchConfig = {
       rules: CLASSIC_RULES,
