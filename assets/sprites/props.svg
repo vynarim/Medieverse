@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Medieverse: the things that stand on the field (battle-scene.ts): the powder barrel, the field
+  kitchen (three frames of its fire; the steam stays drawn by code), the fire pot, the
+  chausse-trape, the tombstone (white, tinted to the fallen unit's house), the five siege engines,
+  and the reliquary with the angel who brings it down (the keys reliquary-art.ts paints otherwise).
+  Each drawing has its anchor at (0, 0): the middle of its base, or the pot's centre. Props are
+  rendered at ×3 (PROP_TEX_SCALE), the shrine and the angel at ×2 (RELIC_TEX_SCALE).
+  © 2026 vynarim, all rights reserved (public/assets/LICENSE.md).
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -120 120 120" width="120" height="120">
+<defs>
+  <!-- The angel's right wing, raised and lowered, from the shoulder; mirrored for the left. -->
+  <g id="wing-up">
+    <path d="M3 -43 C14 -58 32 -67 53 -65 C50 -61 51 -58 47 -55.5 C46 -52 46 -50 42 -48.5 C40.6 -45.4 40 -43.6 36 -42.4 C33.6 -39.4 32 -37.8 28 -37.6 C25 -34.6 22.4 -33.8 18.4 -33.8 C15 -31.6 10.6 -31.4 6 -33.4 Z" fill="#6f93c9" stroke-width="1.3"/>
+    <path d="M14 -40 L19 -34.4 M21 -44 L27.6 -38 M28 -48 L35.4 -42.8 M35 -52.6 L41.8 -48.8 M42 -57.6 L47 -55.6" fill="none" stroke-width="0.7"/>
+    <path d="M3 -43 C12 -55 26 -61 41 -59.6 C38.6 -56 38.6 -53.8 35.4 -51.8 C33.4 -48.6 32.4 -47 28.4 -45.6 C25.6 -42.6 23.4 -41.6 19.4 -40.6 C15.6 -38.4 11.4 -37.6 6 -38.4 Z" fill="#b8322a" stroke-width="1.2"/>
+    <path d="M13 -45 L17.4 -40.4 M21 -49.4 L26 -45 M29 -54 L34.4 -50.6" fill="none" stroke-width="0.6"/>
+    <path d="M3 -44 C10 -52 19 -56 28.6 -54.6 C26.6 -50.8 25.4 -48.6 21.4 -47.4 C18.4 -44.4 15.4 -43.4 11 -43.2 C8 -41.4 6 -41 4 -41 Z" fill="#d4a93c" stroke-width="1.1"/>
+    <path d="M9 -48 Q10.6 -46 10.4 -44.4 M15 -51 Q16.8 -49 16.4 -47 M21 -53 Q22.6 -51.6 22.4 -49.4" fill="none" stroke="#8c6222" stroke-width="0.6"/>
+  </g>
+  <g id="wing-down">
+    <path d="M3 -43 C18 -49 37 -45 53 -28 C48.4 -28.4 47 -26.4 43 -26.2 C40.6 -23.4 38.4 -22.6 34.6 -23.2 C31.6 -20.4 29.2 -20.4 25.6 -22 C22.4 -19.8 19.2 -20 16.2 -22.6 C12.4 -22 9 -24 6 -28.4 Z" fill="#6f93c9" stroke-width="1.3"/>
+    <path d="M15 -29 L16.4 -23.4 M23 -31 L25.4 -23.4 M31 -32.6 L34.4 -24.6 M39 -33.6 L42.6 -27.4 M46 -32 L49 -29.4" fill="none" stroke-width="0.7"/>
+    <path d="M3 -43 C15 -48 29 -45 41 -34.6 C37.8 -33.8 36.4 -31.6 32.6 -31.4 C30.4 -28.6 28 -28.4 24.4 -29.4 C21.4 -27.4 18.4 -27.4 15.4 -29.4 C11.6 -29.4 8.4 -31.2 6 -34.4 Z" fill="#b8322a" stroke-width="1.2"/>
+    <path d="M13 -35 L14.4 -30.6 M20 -36.4 L22.4 -30.4 M28 -37.6 L31 -32.6" fill="none" stroke-width="0.6"/>
+    <path d="M3 -44 C11 -47 20 -45 27.6 -39.4 C24.6 -38.4 23.2 -36.4 20 -36.2 C17.2 -34.2 14.2 -34.2 11.2 -36 C8.2 -36 6 -37 4 -38.4 Z" fill="#d4a93c" stroke-width="1.1"/>
+    <path d="M9 -42.4 Q10.4 -40.4 9.8 -38.6 M15 -42.6 Q16.6 -40.6 16 -38.4 M21 -41.4 Q22.4 -39.6 21.8 -37.6" fill="none" stroke="#8c6222" stroke-width="0.6"/>
+  </g>
+  <!-- The angel without its wings. -->
+  <g id="angel-body">
+    <path d="M-9 -26 L-13 0 M9 -26 L13 0" fill="none" stroke="#6b4a2e" stroke-width="1"/>
+    <path d="M-7 -44 L7 -44 L12.4 -15.6 Q0 -11.4 -12.4 -15.6 Z" fill="#f3ecd9" stroke-width="1.4"/>
+    <path d="M-5 -21 L-6.4 -14.4 M0 -20 L0 -12.8 M5 -21 L6.4 -14.4" fill="none" stroke-width="0.6" stroke-opacity="0.7"/>
+    <path d="M-7 -44 L7 -44 L10.4 -24 Q0 -19.6 -10.4 -24 Z" fill="#2c4a8c" stroke-width="1.4"/>
+    <path d="M-3 -40 Q-5.4 -32 -6 -23.4 M3 -40 Q5.4 -32 6 -23.4 M0 -38 L0 -21.4" fill="none" stroke="#6f93c9" stroke-width="0.8"/>
+    <path d="M-11.4 -16.6 Q0 -12.4 11.4 -16.6" fill="none" stroke="#d4a93c" stroke-width="1.6"/>
+    <path d="M-6.4 -43.4 Q0 -40 6.4 -43.4" fill="none" stroke="#d4a93c" stroke-width="1.4"/>
+    <path d="M-5 -13 Q-3.6 -10.4 -1.4 -12.6 M5 -13 Q3.6 -10.4 1.4 -12.6" fill="#f0cfb0" stroke-width="0.8"/>
+    <path d="M-5 -41 Q-12.6 -36 -9 -26 M5 -41 Q12.6 -36 9 -26" fill="none" stroke-width="3.6"/>
+    <path d="M-5 -41 Q-12.6 -36 -9 -26 M5 -41 Q12.6 -36 9 -26" fill="none" stroke="#2c4a8c" stroke-width="2"/>
+    <circle cx="-9" cy="-26" r="2" fill="#f0cfb0" stroke-width="1"/>
+    <circle cx="9" cy="-26" r="2" fill="#f0cfb0" stroke-width="1"/>
+    <circle cx="0" cy="-53" r="10.4" fill="#d4a93c" stroke-width="1.4"/>
+    <circle cx="0" cy="-53" r="7.8" fill="none" stroke="#8c6222" stroke-width="0.7"/>
+    <g fill="#8c6222" stroke="none">
+      <circle cx="0" cy="-62.2" r="0.6"/><circle cx="6.5" cy="-59.5" r="0.6"/><circle cx="9.2" cy="-53" r="0.6"/>
+      <circle cx="-6.5" cy="-59.5" r="0.6"/><circle cx="-9.2" cy="-53" r="0.6"/>
+      <circle cx="6.5" cy="-46.5" r="0.6"/><circle cx="-6.5" cy="-46.5" r="0.6"/>
+    </g>
+    <path d="M-2.4 -45.6 L2.4 -45.6 L2.6 -43.4 L-2.6 -43.4 Z" fill="#f0cfb0" stroke-width="0.9"/>
+    <ellipse cx="0" cy="-51" rx="5.6" ry="6.4" fill="#f0cfb0" stroke-width="1.3"/>
+    <path d="M-6.4 -50 C-7.6 -55 -4.6 -58.6 0 -58.4 C4.6 -58.6 7.6 -55 6.4 -50 C5.8 -52.6 4.4 -54 2.6 -54.4 C1 -53 -1.4 -53 -2.8 -54.4 C-4.4 -54 -5.8 -52.6 -6.4 -50 Z" fill="#c99a3e" stroke-width="1"/>
+    <path d="M-6.6 -50.4 Q-8 -48 -6.4 -46.4 M6.6 -50.4 Q8 -48 6.4 -46.4" fill="none" stroke="#c99a3e" stroke-width="1.4"/>
+    <path d="M-3.4 -51.4 Q-2.2 -52.2 -1 -51.4 M1 -51.4 Q2.2 -52.2 3.4 -51.4" fill="none" stroke-width="0.6"/>
+    <circle cx="-2.2" cy="-50.6" r="0.6" fill="#2a1d14" stroke="none"/>
+    <circle cx="2.2" cy="-50.6" r="0.6" fill="#2a1d14" stroke="none"/>
+    <circle cx="-3.6" cy="-48.4" r="1" fill="#c96a6e" fill-opacity="0.5" stroke="none"/>
+    <circle cx="3.6" cy="-48.4" r="1" fill="#c96a6e" fill-opacity="0.5" stroke="none"/>
+    <path d="M-1.3 -47.2 Q0 -46.4 1.3 -47.2" fill="none" stroke="#b8322a" stroke-width="0.8"/>
+  </g>
+  <!-- Flames of the kitchen's fire, three frames. -->
+  <g id="fire-0">
+    <path d="M-12 -4 C-13 -10 -9.4 -13 -8 -19 C-5.6 -15.4 -5 -13.6 -3 -12.6 C-3.2 -17.6 -0.8 -21.4 1.4 -25 C3.6 -19.4 3.8 -15.6 5 -13.6 C6.8 -15.2 8 -17 9 -20 C11.6 -14 12.6 -9.6 11.6 -4 Z" fill="#b8322a" stroke-width="1"/>
+    <path d="M-7 -4 C-7.6 -8 -5 -10 -4.6 -13 C-2.6 -10.6 -2 -9.6 -0.8 -9.2 C-0.6 -12.6 0.6 -15.4 2 -17.6 C3.6 -13.4 3.6 -10.6 4.4 -9.4 C5.6 -10.6 6.2 -11.8 6.8 -13.4 C8.4 -9.6 8.4 -6.6 7.4 -4 Z" fill="#d4a93c" stroke-width="0.8"/>
+    <path d="M-2 -4 C-2.4 -6.4 -0.4 -8 0.6 -10.4 C1.8 -8 2.6 -6 2.4 -4 Z" fill="#f3ecd9" stroke="none"/>
+  </g>
+  <g id="fire-1">
+    <path d="M-12 -4 C-12.6 -9.6 -10.6 -14 -10 -18 C-7.6 -14.4 -6 -13 -4 -12.4 C-4.6 -16.6 -2.4 -20.4 -1 -23.4 C1.6 -19 2.6 -16 4 -14 C5.6 -16.6 7.8 -19.6 10.2 -22 C12.4 -15.6 12.6 -9.4 11.6 -4 Z" fill="#b8322a" stroke-width="1"/>
+    <path d="M-7 -4 C-7.4 -7.4 -6.2 -10 -6 -12.6 C-4 -10.6 -3 -9.6 -1.6 -9 C-2 -11.8 -0.6 -14.4 0.4 -16.4 C2 -13.6 2.8 -11.4 3.6 -9.6 C4.8 -11.2 6.2 -13.4 7.6 -15 C8.6 -11 8.4 -7 7.4 -4 Z" fill="#d4a93c" stroke-width="0.8"/>
+    <path d="M-2 -4 C-2.6 -6 -1.4 -7.6 -0.6 -9.6 C0.8 -7.6 2.2 -6 2.4 -4 Z" fill="#f3ecd9" stroke="none"/>
+  </g>
+  <g id="fire-2">
+    <path d="M-12 -4 C-13.4 -9 -10.6 -12 -6.6 -16.6 C-5.4 -13.4 -4.6 -12 -2.6 -11.6 C-2 -16.6 1.4 -19.6 3.6 -26 C5.2 -20 4.6 -16.4 5.6 -13 C7.4 -14 8.4 -15 8.4 -17.4 C11.8 -12.6 12.8 -8.4 11.6 -4 Z" fill="#b8322a" stroke-width="1"/>
+    <path d="M-7 -4 C-8 -7.4 -5.4 -9.6 -3.4 -12 C-2.4 -10 -1.8 -9 -0.4 -8.6 C0 -11.8 2 -14.6 3.4 -18.4 C4.6 -14 4.4 -11 5 -9 C6 -9.6 6.6 -10.4 6.8 -11.8 C8.6 -8.6 8.6 -6.4 7.4 -4 Z" fill="#d4a93c" stroke-width="0.8"/>
+    <path d="M-2 -4 C-2 -6.6 0 -8 1.6 -10.8 C2.6 -8.4 2.8 -6 2.4 -4 Z" fill="#f3ecd9" stroke="none"/>
+  </g>
+  <!-- The kitchen behind its fire: back leg, logs. -->
+  <g id="kitchen-back">
+    <path d="M3 -1 L0 -44" fill="none" stroke-width="3.4"/>
+    <path d="M3 -1 L0 -44" fill="none" stroke="#4f3520" stroke-width="2"/>
+    <path d="M-15 -2.4 L13 -7.4 L14 -4 L-14 1 Z" fill="#6b4a2e" stroke-width="1"/>
+    <path d="M-13 -7.6 L15 -2 L14 1.4 L-14 -4.2 Z" fill="#8a5a32" stroke-width="1"/>
+    <ellipse cx="14.4" cy="-0.3" rx="1.2" ry="1.8" fill="#c99a3e" stroke-width="0.7"/>
+    <ellipse cx="13.6" cy="-5.7" rx="1.2" ry="1.8" fill="#c99a3e" stroke-width="0.7"/>
+  </g>
+  <!-- The cauldron on its chain, the hearth stones, the front legs of the tripod. -->
+  <g id="kitchen-front">
+    <path d="M0 -44 L0 -38" fill="none" stroke-width="1"/>
+    <g fill="none" stroke-width="0.9">
+      <ellipse cx="0" cy="-42.6" rx="0.9" ry="1.4"/><ellipse cx="0" cy="-39.8" rx="0.9" ry="1.4"/>
+    </g>
+    <path d="M-13.4 -32.4 Q0 -46 13.4 -32.4" fill="none" stroke-width="1"/>
+    <path d="M-14.4 -33 C-16.4 -24 -13 -16.6 -6 -15.6 L6 -15.6 C13 -16.6 16.4 -24 14.4 -33 Z" fill="#4a4448" stroke-width="1.3"/>
+    <path d="M9.6 -30 C10.6 -25 9.4 -20.4 6 -18.4" fill="none" stroke="#2a1d14" stroke-width="0.8" stroke-opacity="0.8"/>
+    <path d="M-11 -29.6 C-11.6 -25 -10 -21 -7.4 -19.2" fill="none" stroke="#8a8789" stroke-width="1.1"/>
+    <path d="M-7 -15.6 L-8.6 -12.6 M7 -15.6 L8.6 -12.6" fill="none" stroke-width="1.6"/>
+    <ellipse cx="0" cy="-33" rx="15.4" ry="3.2" fill="#8a8789" stroke-width="1.2"/>
+    <ellipse cx="0" cy="-33.2" rx="12.6" ry="2" fill="#8fae6a" stroke-width="0.8"/>
+    <circle cx="-5" cy="-33.4" r="1" fill="#f3ecd9" stroke-width="0.5"/>
+    <circle cx="2.6" cy="-33" r="0.8" fill="#f3ecd9" stroke-width="0.5"/>
+    <path d="M-1 -33.4 L-3.6 -35.2 L-1.6 -36.4 Z" fill="#c99a3e" stroke-width="0.6"/>
+    <path d="M5 -33.6 L11 -43.6" fill="none" stroke-width="2.4"/>
+    <path d="M5 -33.6 L11 -43.6" fill="none" stroke="#c99a3e" stroke-width="1.2"/>
+    <ellipse cx="11.4" cy="-44.2" rx="1.6" ry="1" fill="#c99a3e" stroke-width="0.6"/>
+    <path d="M-20 0 L0 -44 M20 0 L0 -44" fill="none" stroke-width="3.6"/>
+    <path d="M-20 0 L0 -44 M20 0 L0 -44" fill="none" stroke="#8a5a32" stroke-width="2.2"/>
+    <path d="M-2.4 -42 L2.4 -42.6 M-2.6 -40.4 L2.6 -41" fill="none" stroke="#c99a3e" stroke-width="0.9"/>
+    <path d="M-25 0 C-25.6 -4.6 -23.6 -7.6 -20 -7.6 C-16.6 -7.6 -15 -4.6 -15.6 0 Z" fill="#77737a" stroke-width="1.1"/>
+    <path d="M-15.4 0 C-15.6 -5 -12.8 -7.2 -9.6 -7 C-6.2 -6.8 -4.6 -4 -5.2 0 Z" fill="#8a8789" stroke-width="1.1"/>
+    <path d="M5.2 0 C4.6 -4.4 6.6 -7 9.8 -7.2 C13.2 -7.2 15.6 -4.6 15.4 0 Z" fill="#77737a" stroke-width="1.1"/>
+    <path d="M15.6 0 C15.2 -4.8 17.4 -7.6 20.4 -7.6 C23.8 -7.4 25.6 -4.4 25 0 Z" fill="#8a8789" stroke-width="1.1"/>
+    <path d="M-5 0 C-5 -2.6 -2.4 -4 0 -4 C2.6 -4 5 -2.6 5.2 0 Z" fill="#6b6870" stroke-width="1"/>
+    <path d="M-23 -5.6 Q-20.6 -6.8 -18 -6 M-13 -5.4 Q-10.6 -6.4 -8 -5.4 M7.4 -5.4 Q9.8 -6.4 12.4 -5.6 M17.6 -5.8 Q20.2 -6.8 22.8 -5.8" fill="none" stroke="#bdb9b0" stroke-width="0.9"/>
+  </g>
+</defs>
+<g stroke="#2a1d14" stroke-linejoin="round" stroke-linecap="round">
+
+  <!-- The powder barrel: oak staves, iron hoops, a bung, a vermilion roundel with a gold flame. -->
+  <g id="sprite-prop_barrel" data-box="-13 -32 26 32" data-scale="3">
+    <path d="M-9 -28 Q-12.6 -14 -9 -1 L9 -1 Q12.6 -14 9 -28 Z" fill="#8a5a32" stroke-width="1.4"/>
+    <path d="M4.6 -28 Q7.6 -14 4.6 -1 L9 -1 Q12.6 -14 9 -28 Z" fill="#6b4a2e" stroke="none"/>
+    <path d="M-4.6 -27.8 Q-6.6 -14 -4.6 -1.2 M0 -27.6 L0 -1.2 M4.6 -27.8 Q6.6 -14 4.6 -1.2" fill="none" stroke-width="0.6" stroke-opacity="0.7"/>
+    <path d="M-7 -26 Q-9.8 -14 -7 -3" fill="none" stroke="#c99a3e" stroke-width="0.9"/>
+    <path d="M-9.6 -25.2 Q0 -24 9.6 -25.2 L10.1 -22.4 Q0 -21.2 -10.1 -22.4 Z" fill="#8a8789" stroke-width="1"/>
+    <path d="M-10.1 -6.2 Q0 -5 10.1 -6.2 L9.6 -3.6 Q0 -2.4 -9.6 -3.6 Z" fill="#8a8789" stroke-width="1"/>
+    <path d="M-9.4 -24.4 Q0 -23.2 9.4 -24.4 M-9.8 -5.4 Q0 -4.2 9.8 -5.4" fill="none" stroke="#bdb9b0" stroke-width="0.6"/>
+    <g fill="#2a1d14" stroke="none">
+      <circle cx="-5" cy="-23.4" r="0.5"/><circle cx="5" cy="-23.4" r="0.5"/>
+      <circle cx="-5" cy="-4.4" r="0.5"/><circle cx="5" cy="-4.4" r="0.5"/>
+    </g>
+    <ellipse cx="0" cy="-28" rx="9" ry="2.2" fill="#a8744a" stroke-width="1.2"/>
+    <path d="M-5 -28.4 L5 -28.4 M-6.6 -27.4 L6.6 -27.4" fill="none" stroke="#6b4a2e" stroke-width="0.5"/>
+    <path d="M2 -29 L2.4 -31 L5 -31 L5.2 -28.8" fill="#6b4a2e" stroke-width="0.9"/>
+    <circle cx="0" cy="-13.6" r="5" fill="#b8322a" stroke-width="1.1"/>
+    <circle cx="0" cy="-13.6" r="3.8" fill="none" stroke="#d4a93c" stroke-width="0.5"/>
+    <path d="M-2 -11.4 C-2.6 -13.4 -1 -14.4 -0.8 -16.4 C0.2 -15.2 0.6 -14.6 1 -14.6 C1 -15.4 1.4 -16 1.8 -16.6 C2.8 -14.6 2.6 -12.6 2 -11.4 Z" fill="#d4a93c" stroke-width="0.5"/>
+  </g>
+
+  <!-- The field kitchen: tripod, cauldron of green soup, ladle, logs and hearth stones. -->
+  <g id="sprite-prop_kitchen_0" data-box="-28 -50 56 50" data-scale="3">
+    <use href="#kitchen-back"/><use href="#fire-0"/><use href="#kitchen-front"/>
+  </g>
+  <g id="sprite-prop_kitchen_1" data-box="-28 -50 56 50" data-scale="3">
+    <use href="#kitchen-back"/><use href="#fire-1"/><use href="#kitchen-front"/>
+  </g>
+  <g id="sprite-prop_kitchen_2" data-box="-28 -50 56 50" data-scale="3">
+    <use href="#kitchen-back"/><use href="#fire-2"/><use href="#kitchen-front"/>
+  </g>
+
+  <!-- The fire pot left on the ground: glazed clay, a rope net, a rag in its neck (the flame is code). -->
+  <g id="sprite-prop_pot" data-box="-9 -10 18 18" data-scale="3">
+    <path d="M-3.6 -5.4 L3.6 -5.4 L3.8 -4 C7.6 -3 8.4 4.4 4 6.4 L-4 6.4 C-8.4 4.4 -7.6 -3 -3.8 -4 Z" fill="#8a5a32" stroke-width="1.3"/>
+    <path d="M3 -3.4 C6 -2 6.6 3.6 3.4 5.6 L5 5.6 C7.6 3.6 7 -2 4.4 -3.6 Z" fill="#6b4a2e" stroke="none"/>
+    <path d="M-6.4 0 Q0 2.4 6.4 0" fill="none" stroke="#b8322a" stroke-width="1.6"/>
+    <path d="M-5.6 -2.6 L1.6 6 M-1.6 -4 L5.6 4 M5.6 -2.6 L-1.6 6 M1.6 -4 L-5.6 4" fill="none" stroke="#c99a3e" stroke-width="0.6"/>
+    <path d="M-4.4 -1.6 Q-5.4 1 -4.6 3" fill="none" stroke="#f3ecd9" stroke-width="0.8" stroke-opacity="0.7"/>
+    <path d="M-2.6 -5.4 C-3.6 -6.6 -2.4 -8 -0.6 -7.4 C0.4 -8.6 2.6 -8 2.4 -6.6 C3.4 -6.4 3.2 -5.4 2.6 -5.2 Z" fill="#f3ecd9" stroke-width="0.8"/>
+    <path d="M-0.6 -7.4 Q0 -6.4 -0.4 -5.4" fill="none" stroke-width="0.5"/>
+  </g>
+
+  <!-- The chausse-trape: four iron spikes round a knot (the house's mark on the top one is code). -->
+  <g id="sprite-prop_mine" data-box="-11 -12 22 13" data-scale="3">
+    <path d="M-1.6 -4.6 L-10 -0.2 L-1 -1.8 Z M1.6 -4.6 L10 -0.2 L1 -1.8 Z" fill="#8a8789" stroke-width="1"/>
+    <path d="M-1.6 -3 L-6 -9.4 L0 -4.6 Z M1.6 -3 L6 -9.4 L0 -4.6 Z" fill="#a7a4a6" stroke-width="1"/>
+    <path d="M-1.4 -4 L0 -10.8 L1.4 -4 Z" fill="#bdb9b0" stroke-width="1"/>
+    <circle cx="0" cy="-3.2" r="2.6" fill="#77737a" stroke-width="1"/>
+    <path d="M-1.2 -4.2 Q-0.4 -4.8 0.6 -4.6" fill="none" stroke="#bdb9b0" stroke-width="0.6"/>
+  </g>
+
+  <!-- The tombstone, white and grey so that the house's colour tints it; a cross carved in. -->
+  <g id="sprite-prop_grave" data-box="-14 -37 28 37" data-scale="3">
+    <path d="M-12 0 L-12 -22 A12 12 0 0 1 12 -22 L12 0 Z" fill="#ffffff" stroke-width="1.5"/>
+    <path d="M7 0 L7 -22 A12 12 0 0 0 3.6 -30.6 A12 12 0 0 1 12 -22 L12 0 Z" fill="#c4c4c4" stroke="none"/>
+    <path d="M-9.4 -22 A9.4 9.4 0 0 1 9.4 -22 L9.4 -1 M-9.4 -22 L-9.4 -1" fill="none" stroke="#9a9a9a" stroke-width="0.7"/>
+    <path d="M-1.6 -29 L1.6 -29 L1.6 -24.6 L6 -24.6 L6 -21.4 L1.6 -21.4 L1.6 -10 L-1.6 -10 L-1.6 -21.4 L-6 -21.4 L-6 -24.6 L-1.6 -24.6 Z" fill="#8c8c8c" stroke-width="0.9"/>
+    <path d="M-1.6 -29 L-1.6 -24.6 L-6 -24.6 M-1.6 -21.4 L-1.6 -10" fill="none" stroke="#5a5a5a" stroke-width="0.7"/>
+    <path d="M-6 -6.4 L-1 -6.4 M1 -6.4 L6 -6.4 M-5 -3.6 L5 -3.6" fill="none" stroke="#6a6a6a" stroke-width="0.8"/>
+    <path d="M-12 -14 L-10.4 -13.2 L-12 -11.6 M10 -27 L11.4 -25.6" fill="none" stroke-width="0.8"/>
+    <path d="M-7.6 -30.4 Q-5 -32.4 -1.6 -33" fill="none" stroke="#ffffff" stroke-width="0.9"/>
+  </g>
+
+  <!-- The ballista: a great crossbow on a trestle, a winch at its back, a bolt laid ready. -->
+  <g id="sprite-prop_engine_ballista" data-box="-36 -48 72 48" data-scale="3">
+    <path d="M-16 0 L-3 -22 L10 0" fill="none" stroke-width="5.6"/>
+    <path d="M-16 0 L-3 -22 L10 0" fill="none" stroke="#6b4a2e" stroke-width="3.4"/>
+    <path d="M-11 -8 L5 -8" fill="none" stroke-width="4.4"/>
+    <path d="M-11 -8 L5 -8" fill="none" stroke="#8a5a32" stroke-width="2.4"/>
+    <path d="M-31 -27.6 L29 -27.6 L29 -21 L-31 -21 Z" fill="#8a5a32" stroke-width="1.4"/>
+    <path d="M-31 -23.2 L29 -23.2" fill="none" stroke="#6b4a2e" stroke-width="1.6"/>
+    <path d="M-12 -27.6 L-12 -21 M8 -27.6 L8 -21" fill="none" stroke="#8a8789" stroke-width="1.6"/>
+    <path d="M-3 -21 L-3 -18" fill="none" stroke-width="2.6"/>
+    <circle cx="-3" cy="-21" r="2" fill="#8a8789" stroke-width="1"/>
+    <path d="M17 -45 Q-4 -40 -8 -27.6 M17 -3.6 Q-4 -9 -8 -21" fill="none" stroke="#f3ecd9" stroke-width="0.9"/>
+    <path d="M15.4 -46 Q28 -24.4 15.4 -2.6" fill="none" stroke-width="5"/>
+    <path d="M15.4 -46 Q28 -24.4 15.4 -2.6" fill="none" stroke="#6b4a2e" stroke-width="3"/>
+    <path d="M19.2 -30 L23.4 -30 L23.4 -18.6 L19.2 -18.6 Z" fill="#8a8789" stroke-width="1"/>
+    <path d="M-10 -29.4 L30 -29.4" fill="none" stroke-width="2.6"/>
+    <path d="M-10 -29.4 L30 -29.4" fill="none" stroke="#c99a3e" stroke-width="1.2"/>
+    <path d="M29.6 -32 L35.4 -29.4 L29.6 -26.8 Z" fill="#a7a4a6" stroke-width="0.9"/>
+    <path d="M-10 -29.4 L-14 -32.6 L-6 -29.4 L-14 -26.2 Z" fill="#b8322a" stroke-width="0.8"/>
+    <circle cx="-27" cy="-24.4" r="6" fill="#8a5a32" stroke-width="1.3"/>
+    <path d="M-32.4 -24.4 L-21.6 -24.4 M-27 -29.8 L-27 -19 M-30.8 -28.2 L-23.2 -20.6 M-23.2 -28.2 L-30.8 -20.6" fill="none" stroke="#6b4a2e" stroke-width="0.9"/>
+    <circle cx="-27" cy="-24.4" r="1.6" fill="#8a8789" stroke-width="0.8"/>
+  </g>
+
+  <!-- The scorpion: a smaller crossbow on a post, three iron bolt heads at its mouth. -->
+  <g id="sprite-prop_engine_scorpion" data-box="-28 -42 56 42" data-scale="3">
+    <path d="M-12 0 L-1 -18 L10 0 M-1 -18 L-1 -1" fill="none" stroke-width="5"/>
+    <path d="M-12 0 L-1 -18 L10 0 M-1 -18 L-1 -1" fill="none" stroke="#6b4a2e" stroke-width="3"/>
+    <path d="M-22 -26 L17 -26 L17 -20 L-22 -20 Z" fill="#8a5a32" stroke-width="1.3"/>
+    <path d="M-22 -21.8 L17 -21.8" fill="none" stroke="#6b4a2e" stroke-width="1.4"/>
+    <circle cx="-1" cy="-19.6" r="2" fill="#8a8789" stroke-width="1"/>
+    <path d="M10 -38 Q-6 -34 -9 -26 M10 -7.6 Q-6 -11.4 -9 -20" fill="none" stroke="#f3ecd9" stroke-width="0.8"/>
+    <path d="M9 -39 Q19 -23 9 -6.6" fill="none" stroke-width="4.4"/>
+    <path d="M9 -39 Q19 -23 9 -6.6" fill="none" stroke="#6b4a2e" stroke-width="2.6"/>
+    <path d="M-8 -28 L20 -28 M-8 -23 L20 -23 M-8 -18 L20 -18" fill="none" stroke-width="2"/>
+    <path d="M-8 -28 L20 -28 M-8 -23 L20 -23 M-8 -18 L20 -18" fill="none" stroke="#c99a3e" stroke-width="0.9"/>
+    <path d="M20 -30.2 L25 -28 L20 -25.8 Z M20 -25.2 L25 -23 L20 -20.8 Z M20 -20.2 L25 -18 L20 -15.8 Z" fill="#a7a4a6" stroke-width="0.8"/>
+    <path d="M-22 -26 C-26 -28 -27 -32 -24.4 -34.6 C-22.4 -36.4 -19.4 -35.4 -19.6 -33 C-19.8 -31.4 -21.6 -31 -22.4 -32" fill="none" stroke-width="2.4"/>
+    <path d="M-22 -26 C-26 -28 -27 -32 -24.4 -34.6 C-22.4 -36.4 -19.4 -35.4 -19.6 -33 C-19.8 -31.4 -21.6 -31 -22.4 -32" fill="none" stroke="#b8322a" stroke-width="1.2"/>
+  </g>
+
+  <!-- The catapult: a wheeled frame, a twisted skein, the arm at rest against its crossbar. -->
+  <g id="sprite-prop_engine_catapult" data-box="-42 -66 84 66" data-scale="3">
+    <path d="M-14 -12 L0 -36 L14 -12" fill="none" stroke-width="6"/>
+    <path d="M-14 -12 L0 -36 L14 -12" fill="none" stroke="#6b4a2e" stroke-width="3.8"/>
+    <path d="M-36 -14.4 L36 -14.4 L36 -7.4 L-36 -7.4 Z" fill="#8a5a32" stroke-width="1.4"/>
+    <path d="M-36 -10 L36 -10" fill="none" stroke="#6b4a2e" stroke-width="1.4"/>
+    <path d="M-4.6 -36.4 L6.6 -36.4 L6.6 -32 L-4.6 -32 Z" fill="#8a5a32" stroke-width="1.1"/>
+    <path d="M-18 -16 L22 -54" fill="none" stroke-width="6.4"/>
+    <path d="M-18 -16 L22 -54" fill="none" stroke="#8a5a32" stroke-width="4"/>
+    <path d="M14 -48.6 C13 -56 18 -60.6 24 -60 C29.4 -59.4 31 -54 28 -50 Z" fill="#6b4a2e" stroke-width="1.3"/>
+    <circle cx="22.6" cy="-58.4" r="6.4" fill="#77737a" stroke-width="1.2"/>
+    <path d="M18.6 -60.4 Q21 -63 24.6 -62.4" fill="none" stroke="#bdb9b0" stroke-width="0.9"/>
+    <ellipse cx="-18" cy="-15" rx="5.4" ry="4" fill="#c99a3e" stroke-width="1.2"/>
+    <path d="M-21.4 -17.6 L-19.4 -12 M-18.4 -18.8 L-16.4 -11.4 M-15.4 -18.2 L-14 -12.4" fill="none" stroke="#8c6222" stroke-width="0.8"/>
+    <circle cx="-23" cy="-8" r="8.4" fill="#8a5a32" stroke-width="1.4"/>
+    <circle cx="-23" cy="-8" r="6.4" fill="none" stroke="#6b4a2e" stroke-width="0.9"/>
+    <path d="M-29.4 -8 L-16.6 -8 M-23 -14.4 L-23 -1.6" fill="none" stroke="#6b4a2e" stroke-width="1.4"/>
+    <circle cx="-23" cy="-8" r="1.8" fill="#8a8789" stroke-width="0.8"/>
+    <circle cx="23" cy="-8" r="8.4" fill="#8a5a32" stroke-width="1.4"/>
+    <circle cx="23" cy="-8" r="6.4" fill="none" stroke="#6b4a2e" stroke-width="0.9"/>
+    <path d="M16.6 -8 L29.4 -8 M23 -14.4 L23 -1.6" fill="none" stroke="#6b4a2e" stroke-width="1.4"/>
+    <circle cx="23" cy="-8" r="1.8" fill="#8a8789" stroke-width="0.8"/>
+  </g>
+
+  <!-- The trebuchet: a tall A-frame, the long arm cocked high with its sling, a box of stones hung low. -->
+  <g id="sprite-prop_engine_trebuchet" data-box="-50 -122 100 122" data-scale="3">
+    <path d="M-28 -2 L0 -77 L28 -2" fill="none" stroke-width="8"/>
+    <path d="M-28 -2 L0 -77 L28 -2" fill="none" stroke="#6b4a2e" stroke-width="5.4"/>
+    <path d="M-17 -32 L17 -32" fill="none" stroke-width="5.4"/>
+    <path d="M-17 -32 L17 -32" fill="none" stroke="#8a5a32" stroke-width="3.2"/>
+    <path d="M-12 -32 L0 -60 L12 -32" fill="none" stroke-width="3.4"/>
+    <path d="M-12 -32 L0 -60 L12 -32" fill="none" stroke="#8a5a32" stroke-width="1.8"/>
+    <path d="M-42 -6 L42 -6 L42 0 L-42 0 Z" fill="#8a5a32" stroke-width="1.4"/>
+    <path d="M-42 -3 L42 -3" fill="none" stroke="#6b4a2e" stroke-width="1.2"/>
+    <path d="M36 -116 L36 -96" fill="none" stroke="#6b4a2e" stroke-width="1"/>
+    <path d="M33 -98 Q36 -92 39 -98 Z" fill="#c99a3e" stroke-width="1"/>
+    <circle cx="36" cy="-99.6" r="3" fill="#77737a" stroke-width="1"/>
+    <path d="M-30 -52 L37 -114" fill="none" stroke-width="7.4"/>
+    <path d="M-30 -52 L37 -114" fill="none" stroke="#8a5a32" stroke-width="4.8"/>
+    <path d="M-14 -66.8 L-11.6 -64.2 M14 -92.6 L16.4 -90" fill="none" stroke="#8a8789" stroke-width="2"/>
+    <path d="M-30 -52 L-36 -44 M-30 -52 L-24 -44" fill="none" stroke-width="1.4"/>
+    <path d="M-43 -44 L-17 -44 L-19 -22 L-41 -22 Z" fill="#8a5a32" stroke-width="1.4"/>
+    <path d="M-43 -38 L-17.6 -38 M-41.6 -28 L-18.6 -28" fill="none" stroke="#8a8789" stroke-width="1.8"/>
+    <path d="M-36 -44 C-36 -47.4 -32 -47.4 -32 -44 M-30 -44 C-30 -48 -24.6 -48 -24.6 -44" fill="#77737a" stroke-width="1"/>
+    <path d="M-39.4 -33 L-21 -33" fill="none" stroke="#6b4a2e" stroke-width="0.8"/>
+    <circle cx="0" cy="-77" r="4" fill="#d4a93c" stroke-width="1.2"/>
+    <circle cx="0" cy="-77" r="1.2" fill="#2a1d14" stroke="none"/>
+    <path d="M-26 -2 L-22 -2 M22 -2 L26 -2" fill="none" stroke="#8a8789" stroke-width="2"/>
+  </g>
+
+  <!-- The ram: a roofed shed on wheels, the beam hung from chains, its iron head a ram's. -->
+  <g id="sprite-prop_engine_ram" data-box="-52 -54 122 54" data-scale="3">
+    <path d="M-36 -14 L-36 -34 M36 -14 L36 -34" fill="none" stroke-width="6"/>
+    <path d="M-36 -14 L-36 -34 M36 -14 L36 -34" fill="none" stroke="#6b4a2e" stroke-width="3.8"/>
+    <path d="M-42 -16.6 L42 -16.6 L42 -11 L-42 -11 Z" fill="#8a5a32" stroke-width="1.3"/>
+    <path d="M-16 -33 L-14 -24 M16 -33 L14 -24" fill="none" stroke-width="1"/>
+    <g fill="none" stroke-width="0.8">
+      <ellipse cx="-15.4" cy="-30" rx="0.9" ry="1.4"/><ellipse cx="-14.8" cy="-26.8" rx="0.9" ry="1.4"/>
+      <ellipse cx="15.4" cy="-30" rx="0.9" ry="1.4"/><ellipse cx="14.8" cy="-26.8" rx="0.9" ry="1.4"/>
+    </g>
+    <path d="M-49 -25.4 L50 -25.4 L50 -17.6 L-49 -17.6 Z" fill="#8a5a32" stroke-width="1.4"/>
+    <path d="M-49 -19.8 L50 -19.8" fill="none" stroke="#6b4a2e" stroke-width="1.4"/>
+    <path d="M-49 -25.4 C-50.6 -23 -50.6 -20 -49 -17.6" fill="#c99a3e" stroke-width="1"/>
+    <path d="M44 -26.4 L44 -16.6 M47 -26.4 L47 -16.6" fill="none" stroke="#8a8789" stroke-width="1.8"/>
+    <path d="M49 -28 C52 -32 60 -32 63 -27.4 L67 -24 C68.6 -22.6 68 -20 66 -19.6 L61.6 -18.6 C58 -14.6 52 -14.6 49 -16 Z" fill="#a7a4a6" stroke-width="1.3"/>
+    <path d="M55 -27.6 C51 -30 47.6 -26 50 -22.6 C52 -20 55.6 -21.6 54.6 -24 C54 -25.4 52.4 -25 52.6 -23.8" fill="#8a8789" stroke-width="1.1"/>
+    <circle cx="61" cy="-25.6" r="0.9" fill="#2a1d14" stroke="none"/>
+    <path d="M66.6 -21 L64 -21.4" fill="none" stroke-width="0.7"/>
+    <path d="M52 -29.6 Q56 -31.4 60 -30" fill="none" stroke="#bdb9b0" stroke-width="0.8"/>
+    <path d="M-46 -33 L0 -50 L46 -33 Z" fill="#b8322a" stroke-width="1.5"/>
+    <path d="M-30 -38.8 L0 -49.6 M-14 -38 L0 -46 M30 -38.8 L0 -49.6 M14 -38 L0 -46" fill="none" stroke="#8a2620" stroke-width="0.9"/>
+    <path d="M-46 -33 L46 -33" fill="none" stroke="#d4a93c" stroke-width="1.4"/>
+    <path d="M-42 -33 Q-40 -30.4 -38 -33 Q-36 -30.4 -34 -33 M34 -33 Q36 -30.4 38 -33 Q40 -30.4 42 -33" fill="none" stroke="#6b4a2e" stroke-width="0.8"/>
+    <circle cx="-27" cy="-9" r="9" fill="#8a5a32" stroke-width="1.4"/>
+    <circle cx="-27" cy="-9" r="7" fill="none" stroke="#6b4a2e" stroke-width="0.9"/>
+    <path d="M-34 -9 L-20 -9 M-27 -16 L-27 -2" fill="none" stroke="#6b4a2e" stroke-width="1.4"/>
+    <circle cx="-27" cy="-9" r="2" fill="#8a8789" stroke-width="0.8"/>
+    <circle cx="27" cy="-9" r="9" fill="#8a5a32" stroke-width="1.4"/>
+    <circle cx="27" cy="-9" r="7" fill="none" stroke="#6b4a2e" stroke-width="0.9"/>
+    <path d="M20 -9 L34 -9 M27 -16 L27 -2" fill="none" stroke="#6b4a2e" stroke-width="1.4"/>
+    <circle cx="27" cy="-9" r="2" fill="#8a8789" stroke-width="0.8"/>
+  </g>
+
+  <!-- The reliquary: a gilt châsse, arcades on lapis with three saints, a tiled roof, gems, a cross. -->
+  <g id="sprite-shrine" data-box="-16 -36 32 36" data-scale="2">
+    <path d="M-15 -3.2 L15 -3.2 L15 0 L-15 0 Z" fill="#8c6222" stroke-width="1"/>
+    <path d="M-13 -18 L13 -18 L13 -3.2 L-13 -3.2 Z" fill="#d4a93c" stroke-width="1.3"/>
+    <path d="M9.4 -18 L13 -18 L13 -3.2 L9.4 -3.2 Z" fill="#b8902e" stroke="none"/>
+    <g stroke-width="0.9">
+      <path d="M-11 -4.4 L-11 -12 A2.9 2.9 0 0 1 -5.2 -12 L-5.2 -4.4 Z" fill="#2c4a8c"/>
+      <path d="M-2.9 -4.4 L-2.9 -12 A2.9 2.9 0 0 1 2.9 -12 L2.9 -4.4 Z" fill="#2c4a8c"/>
+      <path d="M5.2 -4.4 L5.2 -12 A2.9 2.9 0 0 1 11 -12 L11 -4.4 Z" fill="#2c4a8c"/>
+    </g>
+    <g stroke="none">
+      <circle cx="-8.1" cy="-11.4" r="1.6" fill="#d4a93c"/><circle cx="0" cy="-11.4" r="1.6" fill="#d4a93c"/><circle cx="8.1" cy="-11.4" r="1.6" fill="#d4a93c"/>
+      <circle cx="-8.1" cy="-11.2" r="0.9" fill="#f0cfb0"/><circle cx="0" cy="-11.2" r="0.9" fill="#f0cfb0"/><circle cx="8.1" cy="-11.2" r="0.9" fill="#f0cfb0"/>
+      <path d="M-9.4 -4.4 L-8.1 -10 L-6.8 -4.4 Z M-1.3 -4.4 L0 -10 L1.3 -4.4 Z M6.8 -4.4 L8.1 -10 L9.4 -4.4 Z" fill="#f3ecd9"/>
+      <path d="M-8.6 -8 L-7.6 -8 L-7.4 -4.4 L-8.8 -4.4 Z M-0.5 -8 L0.5 -8 L0.7 -4.4 L-0.7 -4.4 Z M7.6 -8 L8.6 -8 L8.8 -4.4 L7.4 -4.4 Z" fill="#b8322a"/>
+    </g>
+    <path d="M-13 -5.4 L13 -5.4" fill="none" stroke="#8c6222" stroke-width="0.6"/>
+    <path d="M-15.4 -17.6 L-11 -27.4 L11 -27.4 L15.4 -17.6 Z" fill="#d4a93c" stroke-width="1.3"/>
+    <path d="M-12.6 -22.4 Q-10.8 -20.4 -9 -22.4 Q-7.2 -20.4 -5.4 -22.4 Q-3.6 -20.4 -1.8 -22.4 Q0 -20.4 1.8 -22.4 Q3.6 -20.4 5.4 -22.4 Q7.2 -20.4 9 -22.4 Q10.8 -20.4 12.6 -22.4 M-11 -25.6 Q-9.2 -23.6 -7.4 -25.6 Q-5.6 -23.6 -3.8 -25.6 Q-2 -23.6 -0.2 -25.6 Q1.6 -23.6 3.4 -25.6 Q5.2 -23.6 7 -25.6 Q8.8 -23.6 10.6 -25.6" fill="none" stroke="#8c6222" stroke-width="0.6"/>
+    <g stroke-width="0.6">
+      <circle cx="-11.6" cy="-19.2" r="1.3" fill="#b8322a"/><circle cx="-5.8" cy="-19.2" r="1.3" fill="#6f93c9"/>
+      <circle cx="0" cy="-19.2" r="1.3" fill="#b8322a"/><circle cx="5.8" cy="-19.2" r="1.3" fill="#6f93c9"/>
+      <circle cx="11.6" cy="-19.2" r="1.3" fill="#b8322a"/>
+    </g>
+    <path d="M-9 -27.4 L-8.4 -29.4 L-7.8 -27.4 M-5 -27.4 L-4.4 -29.4 L-3.8 -27.4 M3.8 -27.4 L4.4 -29.4 L5 -27.4 M7.8 -27.4 L8.4 -29.4 L9 -27.4" fill="#d4a93c" stroke-width="0.7"/>
+    <path d="M-1.1 -27.4 L-1.1 -31.4 L-3.6 -31.4 L-3.6 -33.4 L-1.1 -33.4 L-1.1 -35.6 L1.1 -35.6 L1.1 -33.4 L3.6 -33.4 L3.6 -31.4 L1.1 -31.4 L1.1 -27.4 Z" fill="#d4a93c" stroke-width="0.8"/>
+    <circle cx="0" cy="-32.4" r="0.8" fill="#b8322a" stroke="none"/>
+    <path d="M-11.6 -16 L-11.6 -5" fill="none" stroke="#f3ecd9" stroke-width="0.6" stroke-opacity="0.7"/>
+  </g>
+
+  <!-- The angel bringing it down, wings raised then lowered; the cords end on the bottom edge, 26 px apart. -->
+  <g id="sprite-angel_0" data-box="-55 -70 110 70" data-scale="2">
+    <use href="#wing-up" transform="translate(-1 0) scale(-1 1)"/><use href="#wing-up" transform="translate(1 0)"/>
+    <use href="#angel-body"/>
+  </g>
+  <g id="sprite-angel_1" data-box="-55 -70 110 70" data-scale="2">
+    <use href="#wing-down" transform="translate(-1 0) scale(-1 1)"/><use href="#wing-down" transform="translate(1 0)"/>
+    <use href="#angel-body"/>
+  </g>
+</g>
+</svg>

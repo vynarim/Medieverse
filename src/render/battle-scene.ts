@@ -72,6 +72,7 @@ import { AIInputSource } from '../input/ai-input.ts';
 import { showSetupScreen } from '../ui/setup-screen.ts';
 import { nameHouses } from '../ui/house-names.ts';
 import { UNICORN_TEX_SCALE, unicornTextures } from './unicorn-art.ts';
+import { PropPool } from './props.ts';
 import { RELIC_TEX_SCALE, reliquaryTextures } from './reliquary-art.ts';
 import { showTitleScreen } from '../ui/title-screen.ts';
 import { StructureState, type StructurePlacement } from '../content/structures.ts';
@@ -164,6 +165,9 @@ const DIAPER_TINTS: Readonly<
 
 /** ms per wing beat of the angels bringing reliquaries down */
 const ANGEL_FLAP = 260;
+/** ms each frame of the kitchen's fire stays */
+const KITCHEN_FLICKER = 130;
+const KITCHEN_FRAMES = ['prop_kitchen_0', 'prop_kitchen_1', 'prop_kitchen_2'] as const;
 /** the unicorn's gallop: ms per stride, px it springs at each */
 const UNICORN_STRIDE = 140;
 const UNICORN_HOP = 6;
@@ -294,6 +298,10 @@ export class BattleScene extends Phaser.Scene {
   private scenery!: Scenery;
   private saver!: AutoSaver;
   private world!: Phaser.GameObjects.Graphics;
+  /** the drawn things on the field (render/props), under `world` */
+  private props!: PropPool;
+  /** under the drawn things: the glow of an engine ready to serve */
+  private underGfx!: Phaser.GameObjects.Graphics;
   /** over the rigged figures: what they hold out, their labels, the aim, the shots */
   private front!: Phaser.GameObjects.Graphics;
   /** the rigged figures (render/rig), by unit id */
@@ -474,6 +482,8 @@ export class BattleScene extends Phaser.Scene {
     this.scenery = new Scenery(this, this.sim.view().terrain, map.theme);
     this.terrain = new TerrainLayer(this, () => this.sim.view().terrain, map.theme);
     this.world = this.add.graphics().setDepth(6);
+    this.underGfx = this.add.graphics().setDepth(5.92);
+    this.props = new PropPool(this, 5.95, (image) => this.hudCam.ignore(image));
     // A piece whose drawing is not loaded is a plain frame at its size (ASSETS §2.1).
     for (const set of RIGS.values()) rigTextures(this, set.rig, {});
     this.front = this.add.graphics().setDepth(FRONT_DEPTH);
@@ -1637,6 +1647,8 @@ export class BattleScene extends Phaser.Scene {
   private drawWorld(alpha: number, time: number, delta: number): void {
     const g = this.world;
     g.clear();
+    this.underGfx.clear();
+    this.props.begin();
     const v = this.sim.view();
     const turn = v.turn;
 
@@ -1679,7 +1691,8 @@ export class BattleScene extends Phaser.Scene {
       if (!u.alive && (!animator || animator.gone)) {
         label?.setVisible(false);
         this.rigViews.get(u.id)?.hide();
-        this.drawGrave(g, x, y, FACTIONS[u.team]?.primary ?? COLORS.roche);
+        const colour = FACTIONS[u.team]?.primary ?? COLORS.roche;
+        if (!this.props.put('prop_grave', x, y, colour)) this.drawGrave(g, x, y, colour);
         continue;
       }
       if (u.id === this.selectedUnit) {
@@ -1733,6 +1746,7 @@ export class BattleScene extends Phaser.Scene {
         if (turn.phase === 'action') this.drawPreview(f, u);
       }
     }
+    this.props.end();
     this.drawDust(f, time);
 
     for (const s of v.shots) {
@@ -2419,10 +2433,12 @@ export class BattleScene extends Phaser.Scene {
         e.reload === 0 &&
         engineFor(v, active, e.type)?.id === e.id;
       if (ready) {
-        g.fillStyle(COLORS.or, 0.25 + 0.15 * Math.sin(time / 200));
-        g.fillEllipse(x, y - def.h / 2, def.w + 40, def.h + 40);
+        this.underGfx.fillStyle(COLORS.or, 0.25 + 0.15 * Math.sin(time / 200));
+        this.underGfx.fillEllipse(x, y - def.h / 2, def.w + 40, def.h + 40);
       }
-      drawEngine(g, e.type, x, y, def.w, def.h, time);
+      if (!this.props.put(`prop_engine_${e.type}`, x, y)) {
+        drawEngine(g, e.type, x, y, def.w, def.h, time);
+      }
       const bw = Math.max(30, def.w * 0.6);
       const top = y - def.h - 18;
       g.fillStyle(COLORS.encre, 0.8);
@@ -2445,10 +2461,12 @@ export class BattleScene extends Phaser.Scene {
     for (const p of pots) {
       const x = p.x / SUBPX;
       const y = p.y / SUBPX;
-      g.fillStyle(COLORS.terreOmbre, 1);
-      g.lineStyle(3, COLORS.encre, 1);
-      g.fillCircle(x, y, 6);
-      g.strokeCircle(x, y, 6);
+      if (!this.props.put('prop_pot', x, y)) {
+        g.fillStyle(COLORS.terreOmbre, 1);
+        g.lineStyle(3, COLORS.encre, 1);
+        g.fillCircle(x, y, 6);
+        g.strokeCircle(x, y, 6);
+      }
       const flick = Math.sin(time / 70 + p.id) * 2;
       g.fillStyle(COLORS.or, 1);
       g.fillTriangle(x - 2, y - 6, x + 2, y - 6, x + flick, y - 13);
@@ -2546,6 +2564,7 @@ export class BattleScene extends Phaser.Scene {
     for (const b of this.sim.view().barrels) {
       const x = b.x / SUBPX;
       const y = b.y / SUBPX;
+      if (this.props.put('prop_barrel', x, y)) continue;
       const w = BARREL_WIDTH;
       const h = BARREL_HEIGHT;
       g.fillStyle(COLORS.terreOmbre, 1);
@@ -2568,6 +2587,17 @@ export class BattleScene extends Phaser.Scene {
     if (!k) return;
     const x = k.x / SUBPX;
     const y = k.y / SUBPX;
+    // The drawn kitchen, its fire in three frames, under the steam drawn below.
+    if (
+      this.props.put(
+        KITCHEN_FRAMES[Math.floor(time / KITCHEN_FLICKER) % 3] ?? 'prop_kitchen_0',
+        x,
+        y,
+      )
+    ) {
+      this.drawSteam(g, x, y, time);
+      return;
+    }
     // Tripod
     g.lineStyle(3, COLORS.terreOmbre, 1);
     g.lineBetween(x - 20, y, x, y - 44);
@@ -2592,7 +2622,11 @@ export class BattleScene extends Phaser.Scene {
     g.fillEllipse(x, y - 26, 30, 20);
     g.fillStyle(COLORS.vertTendre, 1);
     g.fillEllipse(x, y - 33, 24, 6);
-    // Steam scrolls
+    this.drawSteam(g, x, y, time);
+  }
+
+  /** Steam rising in scrolls from the kitchen's cauldron. */
+  private drawSteam(g: Phaser.GameObjects.Graphics, x: number, y: number, time: number): void {
     g.lineStyle(2, COLORS.azur, 0.8);
     for (let i = 0; i < 3; i++) {
       const p = ((time / 1400 + i / 3) % 1) * 30;
@@ -2959,20 +2993,24 @@ export class BattleScene extends Phaser.Scene {
         g.lineStyle(2, f?.primary ?? COLORS.encre, 0.5 + 0.4 * Math.sin(time / 120));
         g.strokeCircle(x, y - 4, 12);
       }
-      g.lineStyle(3, COLORS.encre, 1);
-      for (const [dx, dy] of [
-        [-8, 0],
-        [8, 0],
-        [-5, -7],
-        [5, -7],
-      ] as const) {
-        g.lineBetween(x, y - 3, x + dx, y + dy - 1);
+      if (!this.props.put('prop_mine', x, y)) {
+        g.lineStyle(3, COLORS.encre, 1);
+        for (const [dx, dy] of [
+          [-8, 0],
+          [8, 0],
+          [-5, -7],
+          [5, -7],
+        ] as const) {
+          g.lineBetween(x, y - 3, x + dx, y + dy - 1);
+        }
+        g.fillStyle(COLORS.roche, 1);
+        g.fillCircle(x, y - 3, 3.5);
+        g.strokeCircle(x, y - 3, 3.5);
       }
-      g.fillStyle(COLORS.roche, 1);
-      g.fillCircle(x, y - 3, 3.5);
-      g.strokeCircle(x, y - 3, 3.5);
       g.fillStyle(f?.primary ?? COLORS.encre, 1);
+      g.lineStyle(1, COLORS.encre, 1);
       g.fillCircle(x, y - 10, 2.5);
+      g.strokeCircle(x, y - 10, 2.5);
     }
   }
 
